@@ -1,0 +1,43 @@
+.content-container {
+  padding-left: 100px;
+  padding-top: 50px;
+}
+
+.table-container {
+  margin-top: 10px;
+}
+table {
+  border-collapse: collapse;
+  width: 98%;
+  margin-top: 1rem;
+}
+
+table th,
+table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+.MuiDataGrid-columnHeader {
+  font-size: 1.2rem;
+  background-color: indigo;
+  color: #fff;
+}
+.MuiSvgIcon-root {
+  color: #ffffff;
+}
+.MuiDataGrid-main {
+  background-color: #ffffff;
+}
+.MuiDataGrid-footerContainer {
+  background-color: #ffffff;
+}
+.css-i4bv87-MuiSvgIcon-root {
+  color: #ddd;
+}
+.css-1m9pwf3 {
+  color: white;
+}
+.bx {
+  font-size: 22px;
+}
