@@ -21,10 +21,12 @@ const usersRef = collection(db, "USERS");
 const meatRef = collection(db, "MEAT");
 const partRef = collection(db, "MEATPART");
 const facilityInventoryRef = collection(db, "FACILITY_INVENTORY");
+const brandRef = collection(db, "BRAND_CATEGORY");
 module.exports = {
   db,
   usersRef,
   meatRef,
   partRef,
   facilityInventoryRef,
+  brandRef,
 };

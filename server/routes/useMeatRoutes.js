@@ -24,4 +24,20 @@ useMeatRoutes.get("/fetch-meat", async (req, res) => {
   }
 });
 
+useMeatRoutes.get("/fetch-part/:selectedMeatType", async (req, res) => {
+  try {
+    const selectedMeatType = req.params.selectedMeatType;
+
+    const partsRef = query(partRef, where("meatType", "==", selectedMeatType));
+
+    const querySnapshot = await getDocs(partsRef);
+    const options = querySnapshot.docs.map((doc) => doc.data().meatPart);
+
+    res.json(options);
+  } catch (error) {
+    console.error("Error loading meat options: ", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = useMeatRoutes;

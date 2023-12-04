@@ -37,6 +37,20 @@ const useMeat = () => {
     loadMeatOptions();
   }, []);
 
+  useEffect(() => {
+    const fetchMeatPart = async () => {
+      if (selectedMeatType !== "") {
+        const res = await axios.get(
+          `${url}/useMeat/fetch-part/${selectedMeatType}`
+        );
+        setPartsOptions(res.data);
+        setSelectedParts(res.data[0] || "");
+      }
+    };
+
+    fetchMeatPart();
+  }, [selectedMeatType]);
+
   return {
     selectedMeatType,
     setSelectedMeatType,

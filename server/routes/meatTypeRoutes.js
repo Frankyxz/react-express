@@ -8,7 +8,7 @@ const {
   updateDoc,
   doc,
 } = require("firebase/firestore");
-const { meatRef, partRef } = require("../config/firebasee");
+const { meatRef, partRef } = require("../config/firebase");
 
 const meatRoutes = express.Router();
 

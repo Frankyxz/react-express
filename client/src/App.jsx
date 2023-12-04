@@ -7,8 +7,9 @@ import Admin from "./UserTypes/Admin";
 import ProtectedRoutes from "./ProtectedRoutes";
 import Navbar from "./Components/Navbar";
 import User from "./UserTypes/User";
-import MeatType from "./Pages/MeatType/MeatType";
-import MeatParts from "./Pages/MeatParts/MeatParts";
+import MeatType from "./Pages/Categories/MeatType";
+import MeatParts from "./Pages/Categories/MeatParts";
+import Brands from "./Pages/Categories/Brands";
 const App = () => {
   return (
     <>
@@ -22,6 +23,7 @@ const App = () => {
                 <Route index element={<Admin />} />
                 <Route path="meatType" element={<MeatType />} />
                 <Route path="meat-parts" element={<MeatParts />} />
+                <Route path="brands" element={<Brands />} />
                 <Route path="umaintenace" element={<Accounts />} />
               </Route>
 
