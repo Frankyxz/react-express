@@ -128,6 +128,7 @@ processedMeatRoutes.get("/quantity-process/:id", async (req, res) => {
   }
 });
 
+// Edit the price in the Processed Meat Module
 processedMeatRoutes.put("/edit-process/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -144,16 +145,6 @@ processedMeatRoutes.put("/edit-process/:id", async (req, res) => {
       wholeSale: parseFloat(editItem.wholeSale),
     });
 
-    if (
-      editItem.scrapId &&
-      editItem.processedMeat !== updatedProcessedMeatName
-    ) {
-      const scrapRef = doc(comissaryRef, editItem.scrapId);
-      batch.update(scrapRef, {
-        processedMeat: updatedProcessedMeatName + "- (SCRAP)",
-      });
-    }
-
     await batch.commit();
 
     res.status(200).json({ message: "Item updated successfully." });
@@ -162,4 +153,23 @@ processedMeatRoutes.put("/edit-process/:id", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// Edit the Quantity in the Comissary Inventory
+
+processedMeatRoutes.put("/edit-process-quantity/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const quantity = req.body.quantity;
+
+    const entryRef = doc(comissaryRef, id);
+
+    await updateDoc(entryRef, { quantity: parseFloat(quantity) });
+
+    res.status(200).json({ message: "Item updated successfully." });
+  } catch (error) {
+    console.error("Error updating KG:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
 module.exports = processedMeatRoutes;
