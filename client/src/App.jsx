@@ -10,6 +10,8 @@ import User from "./UserTypes/User";
 import MeatType from "./Pages/Categories/MeatType";
 import MeatParts from "./Pages/Categories/MeatParts";
 import Brands from "./Pages/Categories/Brands";
+import Facility from "./Pages/Inventory/Facility";
+import ProcessedMeatType from "./Pages/Categories/ProcessedMeatType";
 const App = () => {
   return (
     <>
@@ -24,6 +26,11 @@ const App = () => {
                 <Route path="meatType" element={<MeatType />} />
                 <Route path="meat-parts" element={<MeatParts />} />
                 <Route path="brands" element={<Brands />} />
+                <Route
+                  path="processed-meatType"
+                  element={<ProcessedMeatType />}
+                />
+                <Route path="facility" element={<Facility />} />
                 <Route path="umaintenace" element={<Accounts />} />
               </Route>
 

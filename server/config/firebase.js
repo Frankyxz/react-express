@@ -1,5 +1,5 @@
 const { initializeApp } = require("firebase/app");
-const { getFirestore, collection } = require("firebase/firestore");
+const { getFirestore, collection, doc } = require("firebase/firestore");
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -22,6 +22,13 @@ const meatRef = collection(db, "MEAT");
 const partRef = collection(db, "MEATPART");
 const facilityInventoryRef = collection(db, "FACILITY_INVENTORY");
 const brandRef = collection(db, "BRAND_CATEGORY");
+const comissaryRef = collection(db, "COMISSARY_INVENTORY");
+
+//Counters
+const facilityCounter = doc(db, "counters", "FacilityCounter");
+const processCounter = doc(db, "counters", "ProcessCounter");
+const scrapCounter = doc(db, "counters", "ScrapCounter");
+const orderCounter = doc(db, "counters", "OrderCounter");
 module.exports = {
   db,
   usersRef,
@@ -29,4 +36,7 @@ module.exports = {
   partRef,
   facilityInventoryRef,
   brandRef,
+  comissaryRef,
+  processCounter,
+  scrapCounter,
 };

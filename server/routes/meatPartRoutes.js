@@ -72,7 +72,6 @@ meatPartRoutes.get("/validate-edit/", async (req, res) => {
 });
 
 //Edit
-//Edit
 meatPartRoutes.put("/edit-part/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -84,6 +83,56 @@ meatPartRoutes.put("/edit-part/:id", async (req, res) => {
       combined: `${meatType} ${meatPart.trim().toUpperCase()}`,
     });
     res.status(200).send("Meat updated successfully.");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// Fetch combined like PORK JOWLS
+meatPartRoutes.get("/fetch-combine/", async (req, res) => {
+  try {
+    const querySnapshot = await getDocs(partRef);
+    const options = querySnapshot.docs.map((doc) => doc.data().combined);
+    res.json(options);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
+// MEAT PART TOTALS
+meatPartRoutes.post("/fetch-meatTotal/", async (req, res) => {
+  const { meatCollection } = req.body;
+  try {
+    if (meatCollection && meatCollection.length > 0) {
+      // Fetch facility items
+      const facilityItems = await getDocs(facilityInventoryRef);
+      const facilityItemsArray = facilityItems.docs.map((doc) => doc.data());
+      const totalKgs = {};
+
+      meatCollection.forEach((combine) => {
+        totalKgs[combine] = 0;
+      });
+
+      facilityItemsArray.forEach((item) => {
+        const combine = item.combine;
+        const kg = item.kg;
+
+        if (meatCollection.includes(combine)) {
+          totalKgs[combine] += kg;
+        } else {
+          console.warn(
+            `Combine value "${combine}" not found in meatCollection`
+          );
+        }
+      });
+
+      res.json(totalKgs);
+    } else {
+      // If meatCollection is empty or not defined, send an empty object
+      res.json({});
+    }
   } catch (error) {
     console.error(error);
     res.status(500).send("Internal Server Error");

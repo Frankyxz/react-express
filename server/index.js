@@ -10,14 +10,8 @@ const fetchDataRoutes = require("./routes/fetchDataRoutes");
 const useMeatRoutes = require("./routes/useMeatRoutes");
 const meatPartRoutes = require("./routes/meatPartRoutes");
 const brandRoutes = require("./routes/brandRoutes");
+const processedMeatRoutes = require("./routes/processedMeatRoutes");
 
-// const admin = require("firebase-admin");
-// const credentials = require("./serviceAccountKey.json");
-// admin.initializeApp({
-//   credential: admin.credential.cert(credentials),
-// });
-
-// const db = admin.firestore();
 app.use(express.json());
 app.use(cors());
 
@@ -29,6 +23,7 @@ app.use("/fetchData", fetchDataRoutes);
 app.use("/useMeat", useMeatRoutes);
 app.use("/meatPart", meatPartRoutes);
 app.use("/brands", brandRoutes);
+app.use("/processed", processedMeatRoutes);
 
 app.listen(8000, () => {
   console.log("Firebase backend");

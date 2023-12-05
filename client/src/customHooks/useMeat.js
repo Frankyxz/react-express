@@ -51,6 +51,39 @@ const useMeat = () => {
     fetchMeatPart();
   }, [selectedMeatType]);
 
+  useEffect(() => {
+    const loadData = async () => {
+      try {
+        const res = await axios.get(
+          `${url}/useMeat/fetch-box/${selectedMeatType}/${selectedParts}`
+        );
+        setMeatData(res.data);
+      } catch (error) {
+        console.error("Error loading meat options: ", error);
+      }
+    };
+    loadData();
+  }, [selectedParts]);
+
+  useEffect(() => {
+    const loadMeatBrandOptions = async () => {
+      try {
+        if (selectedParts !== "") {
+          const res = await axios.get(
+            `${url}/useMeat/fetch-brand/${selectedMeatType}/${selectedParts}`
+          );
+
+          setMeatBrandOptions(res.data);
+          setBrandSelect(res.data[0] || "");
+        }
+      } catch (error) {
+        console.error("Error loading meat options: ", error);
+      }
+    };
+
+    loadMeatBrandOptions();
+  }, [selectedParts, selectedMeatType]);
+
   return {
     selectedMeatType,
     setSelectedMeatType,
