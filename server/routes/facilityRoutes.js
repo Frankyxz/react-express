@@ -33,10 +33,13 @@ facilityRoutes.post("/add-box/", async (req, res) => {
       combine: `${selectedMeatType} ${selectedParts}`,
     };
 
+    const brandName = brandSelect;
+    const type = `${selectedMeatType} ${selectedParts}`;
+
     const docRef = doc(facilityInventoryRef, num.toString());
     await setDoc(docRef, addItem);
     await setDoc(facilityCounter, { value: num });
-    res.send({ message: "sucesss" });
+    res.send({ num, type, brandName, meatKg });
   } catch (error) {
     res.send(error);
   }

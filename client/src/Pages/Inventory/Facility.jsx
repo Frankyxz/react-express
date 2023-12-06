@@ -10,6 +10,8 @@ import { url } from "../../js/url";
 import axios from "axios";
 import useTotal from "../../customHooks/useTotal";
 import SearchBar from "../../Components/SearchBar";
+import QRCode from "react-qr-code";
+import { useReactToPrint } from "react-to-print";
 const Facility = () => {
   const {
     selectedMeatType,
@@ -36,7 +38,25 @@ const Facility = () => {
   const [meatKg, setMeatKg] = useState("");
   const meatTotal = useTotal(meatData, "kg");
   const [brandTotalKgs, setBrandTotalKgs] = useState({});
+  const [qrCode, setQrCode] = useState(null);
+  const [qrModal, setQrModal] = useState(false);
+  const [qrData, setQrData] = useState(null);
+  const [qrDetails, setQrDetails] = useState(null);
+  const qrRef = useRef();
 
+  const handleOpenQrModal = (data) => {
+    const num = data.id;
+    const meatKg = data.kg;
+    const brandName = data.brandName;
+    const type = data.combine;
+    setQrModal(true);
+    setQrDetails(data);
+    setQrData(JSON.stringify({ num, type, brandName, meatKg }));
+  };
+  const handleCloseQrModal = () => {
+    setQrData(null);
+    setQrModal(false);
+  };
   const handleAddItem = async () => {
     if (meatKg <= 0 || meatKg === "") {
       alert("Input a value");
@@ -49,9 +69,10 @@ const Facility = () => {
         selectedMeatType,
         selectedParts,
       });
-      setMeatKg("");
-      loadData();
       console.log(res.data);
+      setMeatKg("");
+      setQrCode(JSON.stringify(res.data));
+      loadData();
     } catch (error) {
       console.error("Error adding data: ", error);
     }
@@ -135,6 +156,12 @@ const Facility = () => {
       renderCell: (params) => (
         <>
           <button
+            className="btn btn-warning ms-2 d-flex align-items-center p-2"
+            onClick={() => handleOpenQrModal(params.row)}
+          >
+            <i className="bx bx-qr-scan"></i>
+          </button>
+          <button
             className="btn btn-success ms-2 d-flex align-items-center p-2"
             onClick={() => openEditModal(params.row)}
           >
@@ -150,6 +177,9 @@ const Facility = () => {
       ),
     },
   ];
+  const handlePrint = useReactToPrint({
+    content: () => qrRef.current,
+  });
   return (
     <>
       <div className="content-container">
@@ -204,6 +234,7 @@ const Facility = () => {
             {brandName}: {brandTotalKgs[brandName].toFixed(2)} kg
           </div>
         ))}
+
         <SearchBar
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -272,6 +303,40 @@ const Facility = () => {
           </Button>
           <Button variant="primary" id="btn-edit-emp" onClick={handleEditKG}>
             Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={qrModal}
+        onHide={handleCloseQrModal}
+        id="eModal"
+        tabIndex="-1"
+        aria-labelledby="ModalLabel"
+        aria-hidden="true"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="ModalLabel">QR Code</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {qrData ? (
+            <>
+              <div ref={qrRef} className="d-flex justify-content-center">
+                <QRCode value={qrData} size={120} />
+              </div>
+
+              <p className="text-center mt-3">
+                {qrDetails.id} {qrDetails.combine} {qrDetails.brandName}{" "}
+                {qrDetails.kg}
+              </p>
+            </>
+          ) : (
+            <p>Loading</p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="primary" id="btn-edit-emp" onClick={handlePrint}>
+            Print
           </Button>
         </Modal.Footer>
       </Modal>
