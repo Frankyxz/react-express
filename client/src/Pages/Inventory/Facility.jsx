@@ -7,6 +7,7 @@ import TextField from "@mui/material/TextField";
 import Table from "../../Components/Table";
 import BrandSelect from "../../Components/BrandSelect";
 import { url } from "../../js/url";
+import axios from "axios";
 import useTotal from "../../customHooks/useTotal";
 import SearchBar from "../../Components/SearchBar";
 const Facility = () => {
@@ -21,12 +22,62 @@ const Facility = () => {
     meatTypeOptions,
     brandSelect,
     setBrandSelect,
+    loadData,
   } = useMeat();
+  const {
+    editItem,
+    isEditModalOpen,
+    openEditModal,
+    closeEditModal,
+    setEditItem,
+  } = useEditModal();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [meatKg, setMeatKg] = useState("");
   const meatTotal = useTotal(meatData, "kg");
   const [brandTotalKgs, setBrandTotalKgs] = useState({});
+
+  const handleAddItem = async () => {
+    if (meatKg <= 0 || meatKg === "") {
+      alert("Input a value");
+      return;
+    }
+    try {
+      const res = await axios.post(`${url}/facility/add-box/`, {
+        brandSelect,
+        meatKg,
+        selectedMeatType,
+        selectedParts,
+      });
+      setMeatKg("");
+      loadData();
+      console.log(res.data);
+    } catch (error) {
+      console.error("Error adding data: ", error);
+    }
+  };
+  //Delete a box in a specific meatType and meat Parts
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.delete(`${url}/facility/delete-box/${id}`);
+      loadData();
+    } catch (error) {
+      console.error("Error deleting data: ", error);
+    }
+  };
+
+  //Edit the kg of the specific box
+  const handleEditKG = async () => {
+    closeEditModal();
+    try {
+      await axios.put(`${url}/facility/edit-box/${editItem.id}`, {
+        kg: editItem.kg,
+      });
+      loadData();
+    } catch (error) {
+      console.error("Error updating KG: ", error);
+    }
+  };
 
   useEffect(() => {
     // calculate total kg of each brands
@@ -137,7 +188,7 @@ const Facility = () => {
           type="button"
           id="btn-meat"
           className="px-3 btn-primary btn"
-          //   onClick={handleAddItem}
+          onClick={handleAddItem}
           disabled={
             selectedMeatType === "" ||
             selectedParts == "" ||
@@ -176,6 +227,54 @@ const Facility = () => {
           />
         </div>
       </div>
+
+      <Modal
+        show={isEditModalOpen}
+        onHide={closeEditModal}
+        id="eModal"
+        tabIndex="-1"
+        aria-labelledby="ModalLabel"
+        aria-hidden="true"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="ModalLabel">Edit Kg</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form>
+            <Form.Floating className="mb-3">
+              <Form.Control
+                type="text"
+                placeholder="ID"
+                id="edt-id"
+                value={
+                  editItem ? editItem.brandId + " - " + editItem.brandName : ""
+                }
+                disabled
+              />
+              <label htmlFor="edt-id">ID</label>
+            </Form.Floating>
+
+            <Form.Floating className="mb-3">
+              <Form.Control
+                type="number"
+                value={editItem ? editItem.kg : ""}
+                onChange={(e) =>
+                  setEditItem({ ...editItem, kg: e.target.value })
+                }
+              />
+              <label htmlFor="edt-id">KG</label>
+            </Form.Floating>
+          </Form>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={closeEditModal}>
+            Close
+          </Button>
+          <Button variant="primary" id="btn-edit-emp" onClick={handleEditKG}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

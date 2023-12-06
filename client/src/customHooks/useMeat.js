@@ -51,17 +51,17 @@ const useMeat = () => {
     fetchMeatPart();
   }, [selectedMeatType]);
 
+  const loadData = async () => {
+    try {
+      const res = await axios.get(
+        `${url}/useMeat/fetch-box/${selectedMeatType}/${selectedParts}`
+      );
+      setMeatData(res.data);
+    } catch (error) {
+      console.error("Error loading meat options: ", error);
+    }
+  };
   useEffect(() => {
-    const loadData = async () => {
-      try {
-        const res = await axios.get(
-          `${url}/useMeat/fetch-box/${selectedMeatType}/${selectedParts}`
-        );
-        setMeatData(res.data);
-      } catch (error) {
-        console.error("Error loading meat options: ", error);
-      }
-    };
     loadData();
   }, [selectedParts]);
 
@@ -95,6 +95,7 @@ const useMeat = () => {
     meatTypeOptions,
     brandSelect,
     setBrandSelect,
+    loadData,
   };
 };
 
