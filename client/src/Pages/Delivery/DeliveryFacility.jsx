@@ -1,27 +1,17 @@
 import React, { useEffect, useState, useRef } from "react";
 import SearchBar from "../../Components/SearchBar";
-import MeatSelect from "../../Components/MeatSelect";
 import LoadingModal from "../../Components/LoadingModal";
-import useMeat from "../../customHooks/useMeat";
 import useData from "../../customHooks/useData";
 import useTotal from "../../customHooks/useTotal";
-import { Button, Modal, Form } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import { DataGrid } from "@mui/x-data-grid";
 import QrScanner from "qr-scanner";
 import axios from "axios";
 import { url } from "../../js/url";
 import ConfirmModal from "../../Components/ConfirmModal";
 import useConfirmModal from "../../customHooks/useConfirmModal";
+import useGroupMeat from "../../customHooks/useGroupMeat";
 const DeliveryFacility = () => {
-  const {
-    selectedMeatType,
-    setSelectedMeatType,
-    partsOptions,
-    selectedParts,
-    setSelectedParts,
-    meatData,
-    meatTypeOptions,
-  } = useMeat();
   const { isConfirmModalOpen, openConfirmModal, closeConfirmModal } =
     useConfirmModal();
   const deliveryQueueData = useData(`${url}/fetchData/deliveryQueue`);
@@ -32,7 +22,7 @@ const DeliveryFacility = () => {
   const [kgNum, setKgNum] = useState(0);
   const [camOpen, setCamOpen] = useState(false);
   const [scanResult, setScanResult] = useState(null);
-  const [groupMeat, setGroupMeat] = useState(null);
+  const groupMeat = useGroupMeat(deliveryQueueData.dataList, "kg", "combined");
   const videoRef = useRef(null);
 
   useEffect(() => {
@@ -116,7 +106,6 @@ const DeliveryFacility = () => {
   const handleChangeButton = async () => {
     try {
       const res = await axios.get(`${url}/delivery-facility/set-kg`);
-      console.log("KG num", res.data);
       setKgNum(res.data.kg);
     } catch (error) {
       console.error("Error", error);
@@ -193,23 +182,6 @@ const DeliveryFacility = () => {
       align: "center",
     },
   ];
-  useEffect(() => {
-    //Calculate every meat in the deliveryQueue table
-    const groupedMeatData = deliveryQueueData.dataList.reduce((acc, item) => {
-      const key = `${item.combined} ${item.brandName}`;
-      if (!acc[key]) {
-        acc[key] = {
-          meatType: item.combined,
-          brandName: item.brandName,
-          totalKg: 0,
-        };
-      }
-      acc[key].totalKg += item.kg;
-      return acc;
-    }, {});
-
-    setGroupMeat(groupedMeatData);
-  }, [deliveryQueueData.dataList]);
 
   return (
     <>

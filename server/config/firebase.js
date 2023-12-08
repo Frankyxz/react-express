@@ -24,6 +24,11 @@ const facilityInventoryRef = collection(db, "FACILITY_INVENTORY");
 const brandRef = collection(db, "BRAND_CATEGORY");
 const comissaryRef = collection(db, "COMISSARY_INVENTORY");
 const deliveryQRef = collection(db, "DELIVERY_QUEUEUE");
+const empDeliverRef = collection(db, "EMP_DELIVER_DATA");
+const deliverTableRef = collection(db, "DELIVERY_ADMIN_DATA");
+const boxesReceivedRef = collection(db, "BOXES_EMP_RECEIVED");
+const expectTotalRef = collection(db, "EXPECTED_TOTAL");
+const receivedTableRef = collection(db, "EMP_RECEIVED_DATA");
 
 //Counters
 const facilityCounter = doc(db, "counters", "FacilityCounter");
@@ -52,4 +57,9 @@ module.exports = {
   deliverRef,
   deliverStats,
   deliverInfo,
+  empDeliverRef,
+  deliverTableRef,
+  boxesReceivedRef,
+  expectTotalRef,
+  receivedTableRef,
 };

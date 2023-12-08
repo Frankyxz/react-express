@@ -338,7 +338,7 @@ const Navbar = () => {
 
             <li className="user-calc">
               <Link to="/user/calculate">
-                <i class="bx bx-calculator"></i>
+                <i className="bx bx-calculator"></i>
                 <span className="link_name">Calculate</span>
               </Link>
               <ul className="sub-menu blank">

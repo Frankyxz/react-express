@@ -7,6 +7,7 @@ const {
   comissaryRef,
   deliveryQRef,
   facilityInventoryRef,
+  empDeliverRef,
 } = require("../config/firebase");
 const { fetchData } = require("../fetchData");
 const fetchDataRoutes = express.Router();
@@ -18,5 +19,6 @@ fetchDataRoutes.get("/brands", fetchData(brandRef));
 fetchDataRoutes.get("/processed-meat", fetchData(comissaryRef));
 fetchDataRoutes.get("/deliveryQueue", fetchData(deliveryQRef));
 fetchDataRoutes.get("/facility-inventory", fetchData(facilityInventoryRef));
+fetchDataRoutes.get("/emp-deliver-list", fetchData(empDeliverRef));
 
 module.exports = fetchDataRoutes;

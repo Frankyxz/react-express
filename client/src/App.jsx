@@ -14,6 +14,7 @@ import Facility from "./Pages/Inventory/Facility";
 import ProcessedMeatType from "./Pages/Categories/ProcessedMeatType";
 import Comissary from "./Pages/Inventory/Comissary";
 import DeliveryFacility from "./Pages/Delivery/DeliveryFacility";
+import EmpDeliverFacility from "./Pages/Delivery/EmpDeliverFacility";
 const App = () => {
   return (
     <>
@@ -45,6 +46,8 @@ const App = () => {
 
               <Route path="/user">
                 <Route index element={<User />} />
+                <Route path="delivery" element={<EmpDeliverFacility />} />
+                <Route path="comissary" element={<Comissary />} />
               </Route>
             </Route>
           </Route>
