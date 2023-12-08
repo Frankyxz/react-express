@@ -12,6 +12,7 @@ const meatPartRoutes = require("./routes/meatPartRoutes");
 const brandRoutes = require("./routes/brandRoutes");
 const processedMeatRoutes = require("./routes/processedMeatRoutes");
 const facilityRoutes = require("./routes/facilityRoutes");
+const deliveryFacilityRoutes = require("./routes/deliveryFacilityRoutes");
 
 app.use(express.json());
 app.use(cors());
@@ -26,6 +27,7 @@ app.use("/meatPart", meatPartRoutes);
 app.use("/brands", brandRoutes);
 app.use("/processed", processedMeatRoutes);
 app.use("/facility", facilityRoutes);
+app.use("/delivery-facility", deliveryFacilityRoutes);
 
 app.listen(8000, () => {
   console.log("Firebase backend");

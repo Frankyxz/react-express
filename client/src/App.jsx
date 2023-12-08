@@ -13,6 +13,7 @@ import Brands from "./Pages/Categories/Brands";
 import Facility from "./Pages/Inventory/Facility";
 import ProcessedMeatType from "./Pages/Categories/ProcessedMeatType";
 import Comissary from "./Pages/Inventory/Comissary";
+import DeliveryFacility from "./Pages/Delivery/DeliveryFacility";
 const App = () => {
   return (
     <>
@@ -33,6 +34,10 @@ const App = () => {
                 />
                 <Route path="facility" element={<Facility />} />
                 <Route path="comissary" element={<Comissary />} />
+                <Route
+                  path="delivery-facility"
+                  element={<DeliveryFacility />}
+                />
                 <Route path="umaintenace" element={<Accounts />} />
               </Route>
 

@@ -7,7 +7,6 @@ const useData = (link) => {
   const fetchData = async () => {
     try {
       const res = await axios.get(link);
-      console.log(res);
       setDataList(res.data);
     } catch (error) {
       console.log(error);
@@ -15,7 +14,7 @@ const useData = (link) => {
   };
   useEffect(() => {
     fetchData();
-  }, [link]);
+  }, []);
 
   return { dataList, fetchData };
 };

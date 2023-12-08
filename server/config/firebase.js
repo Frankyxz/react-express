@@ -23,12 +23,19 @@ const partRef = collection(db, "MEATPART");
 const facilityInventoryRef = collection(db, "FACILITY_INVENTORY");
 const brandRef = collection(db, "BRAND_CATEGORY");
 const comissaryRef = collection(db, "COMISSARY_INVENTORY");
+const deliveryQRef = collection(db, "DELIVERY_QUEUEUE");
 
 //Counters
 const facilityCounter = doc(db, "counters", "FacilityCounter");
 const processCounter = doc(db, "counters", "ProcessCounter");
 const scrapCounter = doc(db, "counters", "ScrapCounter");
 const orderCounter = doc(db, "counters", "OrderCounter");
+
+//For Delivery
+const deliverProcess = doc(db, "deliverKg", "Ongoing");
+const deliverRef = doc(db, "deliverKg", "kgTotal");
+const deliverStats = doc(db, "deliverKg", "deliverStatus");
+const deliverInfo = doc(db, "deliverKg", "deliveryInfo");
 module.exports = {
   db,
   usersRef,
@@ -40,4 +47,9 @@ module.exports = {
   processCounter,
   scrapCounter,
   facilityCounter,
+  deliveryQRef,
+  deliverProcess,
+  deliverRef,
+  deliverStats,
+  deliverInfo,
 };

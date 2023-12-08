@@ -24,7 +24,6 @@ const useMeat = () => {
     const loadMeatOptions = async () => {
       try {
         const res = await axios.get(`${url}/useMeat/fetch-meat`);
-        console.log(res.data);
         setMeatTypeOptions(res.data);
         setSelectedMeatType(
           selectedMeatType != "" ? selectedMeatType : res.data[0] || ""
