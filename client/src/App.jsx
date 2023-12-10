@@ -15,6 +15,7 @@ import ProcessedMeatType from "./Pages/Categories/ProcessedMeatType";
 import Comissary from "./Pages/Inventory/Comissary";
 import DeliveryFacility from "./Pages/Delivery/DeliveryFacility";
 import EmpDeliverFacility from "./Pages/Delivery/EmpDeliverFacility";
+import DeliveryAdmin from "./Pages/Delivery/DeliveryAdmin";
 const App = () => {
   return (
     <>
@@ -39,6 +40,7 @@ const App = () => {
                   path="delivery-facility"
                   element={<DeliveryFacility />}
                 />
+                <Route path="delivery-data" element={<DeliveryAdmin />} />
                 <Route path="umaintenace" element={<Accounts />} />
               </Route>
 

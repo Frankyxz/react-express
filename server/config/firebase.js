@@ -29,6 +29,11 @@ const deliverTableRef = collection(db, "DELIVERY_ADMIN_DATA");
 const boxesReceivedRef = collection(db, "BOXES_EMP_RECEIVED");
 const expectTotalRef = collection(db, "EXPECTED_TOTAL");
 const receivedTableRef = collection(db, "EMP_RECEIVED_DATA");
+const allTotalRef = collection(db, "ALL_TOTAL");
+const deliveryHistory = collection(db, "DELIVERY_HISTORY");
+const percentHistoryRef = collection(db, "PERCENT_HISTORY");
+const orderHistoryRef = collection(db, "ORDER_HISTORY");
+const cancelHistoryRef = collection(db, "CANCEL_HISTORY");
 
 //Counters
 const facilityCounter = doc(db, "counters", "FacilityCounter");
@@ -62,4 +67,9 @@ module.exports = {
   boxesReceivedRef,
   expectTotalRef,
   receivedTableRef,
+  allTotalRef,
+  deliveryHistory,
+  percentHistoryRef,
+  orderHistoryRef,
+  cancelHistoryRef,
 };

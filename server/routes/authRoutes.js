@@ -4,20 +4,6 @@ const { usersRef } = require("../config/firebase");
 
 const authRoutes = express.Router();
 
-// authRoutes.get("/users", async (req, res) => {
-//   try {
-//     const response = await getDocs(usersRef);
-//     let arr = [];
-//     response.forEach((doc) => {
-//       arr.push(doc.data());
-//     });
-
-//     res.send(arr);
-//   } catch (error) {
-//     res.send(error);
-//   }
-// });
-
 authRoutes.post("/login", async (req, res) => {
   const { userName, password } = req.body;
   try {
@@ -34,7 +20,7 @@ authRoutes.post("/login", async (req, res) => {
     if (user.password === password) {
       res.send({ success: true, user });
     } else {
-      res.send({ success: false, message: "Invalid password" });
+      res.send({ success: false });
     }
   } catch (error) {
     console.error("Error during login:", error.message);

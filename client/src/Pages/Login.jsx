@@ -19,23 +19,12 @@ const Login = () => {
       const { success, user } = response.data;
 
       if (success) {
-        const { type, userName } = user;
-
-        if (type === "Employee") {
-          setUser(userName);
-          setIsAdmin(false);
-          setLoggedIn(true);
-          navigate("/user");
-          console.log("Sucess Emp");
-        } else if (type === "Admin") {
-          setUser(userName);
-          setIsAdmin(true);
-          setLoggedIn(true);
-          navigate("/admin/umaintenace");
-          console.log("Sucess Admin");
-        } else {
-          console.log("Invalid role");
-        }
+        setUser(user.userName.split("@")[0]);
+        setIsAdmin(user.type === "Admin");
+        setLoggedIn(true);
+        navigate(
+          user.type === "Admin" ? "/admin/umaintenace" : "/user/comissary"
+        );
       } else {
         alert("Invalid credentials");
       }

@@ -110,8 +110,8 @@ deliveryFacilityRoutes.post("/cancel-delivery/", async (req, res) => {
 //Set the kg
 deliveryFacilityRoutes.get("/set-kg/", async (req, res) => {
   try {
-    const data = await getDoc(deliverRef);
-    let kgNum = data.data()?.value || 0;
+    const docSnapshot = await getDoc(deliverRef);
+    let kgNum = docSnapshot.data()?.value || 0;
     res.send({ kg: kgNum });
   } catch (error) {
     res.send(error);
