@@ -14,6 +14,10 @@ const {
   expectTotalRef,
   totalProcessedRef,
   allTotalRef,
+  deliveryHistory,
+  percentHistoryRef,
+  orderHistoryRef,
+  cancelHistoryRef,
 } = require("../config/firebase");
 const { fetchData } = require("../fetchData");
 const fetchDataRoutes = express.Router();
@@ -32,4 +36,8 @@ fetchDataRoutes.get("/received-table", fetchData(receivedTableRef));
 fetchDataRoutes.get("/expected-total", fetchData(expectTotalRef));
 fetchDataRoutes.get("/received-total", fetchData(allTotalRef));
 fetchDataRoutes.get("/total-data", fetchData(totalProcessedRef));
+fetchDataRoutes.get("/history-delivery", fetchData(deliveryHistory));
+fetchDataRoutes.get("/history-percentages", fetchData(percentHistoryRef));
+fetchDataRoutes.get("/history-order", fetchData(orderHistoryRef));
+fetchDataRoutes.get("/history-cancel", fetchData(cancelHistoryRef));
 module.exports = fetchDataRoutes;

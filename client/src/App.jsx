@@ -17,6 +17,10 @@ import DeliveryFacility from "./Pages/Delivery/DeliveryFacility";
 import EmpDeliverFacility from "./Pages/Delivery/EmpDeliverFacility";
 import DeliveryAdmin from "./Pages/Delivery/DeliveryAdmin";
 import Calculate from "./Pages/Delivery/Calculate";
+import HistoryDelivery from "./Pages/History/HistoryDelivery";
+import HistoryPercentage from "./Pages/History/HistoryPercentage";
+import HistoryOrder from "./Pages/History/HistoryOrder";
+import HistoryCancel from "./Pages/History/HistoryCancel";
 const App = () => {
   return (
     <>
@@ -43,6 +47,13 @@ const App = () => {
                 />
                 <Route path="delivery-data" element={<DeliveryAdmin />} />
                 <Route path="calculate" element={<Calculate />} />
+                <Route path="delivery-history" element={<HistoryDelivery />} />
+                <Route
+                  path="percentage-history"
+                  element={<HistoryPercentage />}
+                />
+                <Route path="order-history" element={<HistoryOrder />} />
+                <Route path="cancel-history" element={<HistoryCancel />} />
                 <Route path="umaintenace" element={<Accounts />} />
               </Route>
 

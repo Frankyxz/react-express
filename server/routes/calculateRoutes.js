@@ -171,8 +171,8 @@ calculateRoutes.post("/submit-processed/", async (req, res) => {
       totalKgProcessed: totalKgProcessed,
       totalScrap: totalScrap,
       missing: totalKGReceived - (totalKgProcessed + totalScrap),
-      madeToday: totalData,
-      receivedToday: receivedTotalData,
+      madeToday: totalData.dataList,
+      receivedToday: receivedTotalData.dataList,
     };
 
     const docRef = doc(percentHistoryRef, receivedTotalDate.toString());

@@ -16,6 +16,8 @@ const deliveryFacilityRoutes = require("./routes/deliveryFacilityRoutes");
 const empDeliveryFacilityRoutes = require("./routes/empDeliveryFacilityRoutes");
 const deliveryAdminRoutes = require("./routes/deliveryAdminRoutes");
 const calculateRoutes = require("./routes/calculateRoutes");
+const historyRoutes = require("./routes/historyRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 
 app.use(express.json());
 app.use(cors());
@@ -34,6 +36,8 @@ app.use("/delivery-facility", deliveryFacilityRoutes);
 app.use("/emp-facility", empDeliveryFacilityRoutes);
 app.use("/admin-delivery", deliveryAdminRoutes);
 app.use("/calculate", calculateRoutes);
+app.use("/history", historyRoutes);
+app.use("/orders", orderRoutes);
 app.listen(8000, () => {
   console.log("Firebase backend");
 });

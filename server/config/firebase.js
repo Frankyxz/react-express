@@ -35,6 +35,7 @@ const percentHistoryRef = collection(db, "PERCENT_HISTORY");
 const orderHistoryRef = collection(db, "ORDER_HISTORY");
 const cancelHistoryRef = collection(db, "CANCEL_HISTORY");
 const totalProcessedRef = collection(db, "TOTAL_PROCESSED");
+const orderListRef = collection(db, "ORDERS_LIST");
 
 //Counters
 const facilityCounter = doc(db, "counters", "FacilityCounter");
@@ -74,4 +75,5 @@ module.exports = {
   orderHistoryRef,
   cancelHistoryRef,
   totalProcessedRef,
+  orderListRef,
 };
