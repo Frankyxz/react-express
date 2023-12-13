@@ -13,10 +13,10 @@ const DeliveryAdmin = () => {
   const { user } = useLogIn();
   const [remarksModal, setRemarksModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const deliverData = useData(`${url}/fetchData/deliver-table`);
-  const boxesReceived = useData(`${url}/fetchData/box-received`);
-  const receivedMeat = useData(`${url}/fetchData/received-table`);
-  const expectedTotalData = useData(`${url}/fetchData/expected-total`);
+  const deliverData = useData(`deliver-table`);
+  const boxesReceived = useData(`box-received`);
+  const receivedMeat = useData(`received-table`);
+  const expectedTotalData = useData(`expected-total`);
   const deliverTotalKg = useTotal(expectedTotalData.dataList, "totalKg");
   const receivedTotalKg = useTotal(receivedMeat.dataList, "totalKg");
   const [searchQuery, setSearchQuery] = useState("");

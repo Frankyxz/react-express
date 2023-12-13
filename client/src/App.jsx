@@ -16,6 +16,7 @@ import Comissary from "./Pages/Inventory/Comissary";
 import DeliveryFacility from "./Pages/Delivery/DeliveryFacility";
 import EmpDeliverFacility from "./Pages/Delivery/EmpDeliverFacility";
 import DeliveryAdmin from "./Pages/Delivery/DeliveryAdmin";
+import Calculate from "./Pages/Delivery/Calculate";
 const App = () => {
   return (
     <>
@@ -41,6 +42,7 @@ const App = () => {
                   element={<DeliveryFacility />}
                 />
                 <Route path="delivery-data" element={<DeliveryAdmin />} />
+                <Route path="calculate" element={<Calculate />} />
                 <Route path="umaintenace" element={<Accounts />} />
               </Route>
 

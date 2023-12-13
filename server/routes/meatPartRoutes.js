@@ -8,7 +8,11 @@ const {
   updateDoc,
   doc,
 } = require("firebase/firestore");
-const { partRef, facilityInventoryRef } = require("../config/firebase");
+const {
+  partRef,
+  facilityInventoryRef,
+  comissaryRef,
+} = require("../config/firebase");
 
 const meatPartRoutes = express.Router();
 
@@ -101,6 +105,20 @@ meatPartRoutes.get("/fetch-combine/", async (req, res) => {
   }
 });
 
+meatPartRoutes.get("/fetch-partner/:selectedMeatType", async (req, res) => {
+  const selectedMeatType = req.params.selectedMeatType;
+  try {
+    const querySnapshot = await getDocs(comissaryRef);
+    const options = querySnapshot.docs
+      .filter((doc) => doc.data().meatType === selectedMeatType)
+      .map((doc) => doc.data().processedMeat);
+    res.json(options);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 // MEAT PART TOTALS
 meatPartRoutes.post("/fetch-meatTotal/", async (req, res) => {
   const { meatCollection } = req.body;
@@ -122,15 +140,11 @@ meatPartRoutes.post("/fetch-meatTotal/", async (req, res) => {
         if (meatCollection.includes(combine)) {
           totalKgs[combine] += kg;
         } else {
-          console.warn(
-            `Combine value "${combine}" not found in meatCollection`
-          );
+          console.warn(`Not found in meat Collection`);
         }
       });
-
       res.json(totalKgs);
     } else {
-      // If meatCollection is empty or not defined, send an empty object
       res.json({});
     }
   } catch (error) {

@@ -17,8 +17,8 @@ const EmpDeliverFacility = () => {
   const { user } = useLogIn();
   const { isDeliveryModalOpen, openDeliveryModal, closeDeliveryModal } =
     useDeliveryModal();
-  const deliveryQueueData = useData(`${url}/fetchData/deliveryQueue`);
-  const empDeliverList = useData(`${url}/fetchData/emp-deliver-list`);
+  const deliveryQueueData = useData(`deliveryQueue`);
+  const empDeliverList = useData(`emp-deliver-list`);
   const totalMeatKg = useTotal(empDeliverList.dataList, "totalKg");
   const queueGroupMeat = useGroupMeat(
     deliveryQueueData.dataList,

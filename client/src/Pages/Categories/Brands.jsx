@@ -10,7 +10,7 @@ import useEditModal from "../../customHooks/useEditModal";
 import { Button, Modal, Form } from "react-bootstrap";
 
 const Brands = () => {
-  const { dataList, fetchData } = useData(`${url}/fetchData/brands`);
+  const { dataList, fetchData } = useData(`brands`);
   const {
     selectedMeatType,
     setSelectedMeatType,

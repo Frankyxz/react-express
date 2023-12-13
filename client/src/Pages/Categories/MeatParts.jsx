@@ -10,7 +10,7 @@ import useEditModal from "../../customHooks/useEditModal";
 import axios from "axios";
 const MeatParts = () => {
   const [meatPart, setMeatPart] = useState("");
-  const { dataList, fetchData } = useData(`${url}/fetchData/meatPart`);
+  const { dataList, fetchData } = useData(`meatPart`);
   const { selectedMeatType, setSelectedMeatType, meatTypeOptions } = useMeat();
   const {
     editItem,

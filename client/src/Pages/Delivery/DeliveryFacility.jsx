@@ -14,7 +14,7 @@ import useGroupMeat from "../../customHooks/useGroupMeat";
 const DeliveryFacility = () => {
   const { isConfirmModalOpen, openConfirmModal, closeConfirmModal } =
     useConfirmModal();
-  const deliveryQueueData = useData(`${url}/fetchData/deliveryQueue`);
+  const deliveryQueueData = useData(`deliveryQueue`);
   const deliverTotalKg = useTotal(deliveryQueueData.dataList, "kg");
   const [isLoading, setIsLoading] = useState(false);
   const [searchQueue, setSearchQueue] = useState("");

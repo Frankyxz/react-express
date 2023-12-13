@@ -12,6 +12,8 @@ const {
   boxesReceivedRef,
   receivedTableRef,
   expectTotalRef,
+  totalProcessedRef,
+  allTotalRef,
 } = require("../config/firebase");
 const { fetchData } = require("../fetchData");
 const fetchDataRoutes = express.Router();
@@ -28,4 +30,6 @@ fetchDataRoutes.get("/deliver-table", fetchData(deliverTableRef));
 fetchDataRoutes.get("/box-received", fetchData(boxesReceivedRef));
 fetchDataRoutes.get("/received-table", fetchData(receivedTableRef));
 fetchDataRoutes.get("/expected-total", fetchData(expectTotalRef));
+fetchDataRoutes.get("/received-total", fetchData(allTotalRef));
+fetchDataRoutes.get("/total-data", fetchData(totalProcessedRef));
 module.exports = fetchDataRoutes;

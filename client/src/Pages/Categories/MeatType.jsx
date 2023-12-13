@@ -8,7 +8,7 @@ import useEditModal from "../../customHooks/useEditModal";
 import { url } from "../../js/url";
 const MeatType = () => {
   const [meatName, setMeatName] = useState("");
-  const { dataList, fetchData } = useData(`${url}/fetchData/meatType`);
+  const { dataList, fetchData } = useData(`meatType`);
   const {
     editItem,
     isEditModalOpen,
@@ -21,7 +21,6 @@ const MeatType = () => {
       const response = await axios.post(`${url}/meatType/add-meat`, {
         meatName: meatName.trim().toUpperCase(),
       });
-      console.log(response);
       fetchData();
       setMeatName("");
     } catch (error) {

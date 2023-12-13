@@ -16,7 +16,7 @@ const Comissary = () => {
     closeEditModal,
     setEditItem,
   } = useEditModal();
-  const processedMeatList = useData(`${url}/fetchData/processed-meat`);
+  const processedMeatList = useData(`processed-meat`);
   const [searchQuery, setSearchQuery] = useState("");
   const { isAdmin } = useLogIn();
 

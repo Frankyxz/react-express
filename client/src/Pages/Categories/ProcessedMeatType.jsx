@@ -9,7 +9,7 @@ import useStockLevelStore from "../../stores/useStockLevelStore";
 import LoadingModal from "../../Components/LoadingModal";
 
 const ProcessedMeatType = () => {
-  const processedMeatList = useData(`${url}/fetchData/processed-meat`);
+  const processedMeatList = useData(`processed-meat`);
   const [modalAddPmeat, setModalAddPmeat] = useState(false);
   const [selectedParts, setSelectedParts] = useState("");
   const [meatProcessedName, setMeatProcessedName] = useState("");
