@@ -21,6 +21,7 @@ import HistoryDelivery from "./Pages/History/HistoryDelivery";
 import HistoryPercentage from "./Pages/History/HistoryPercentage";
 import HistoryOrder from "./Pages/History/HistoryOrder";
 import HistoryCancel from "./Pages/History/HistoryCancel";
+import EmployeeDispatch from "./Pages/Maintenance/EmployeeDispatch";
 const App = () => {
   return (
     <>
@@ -55,6 +56,7 @@ const App = () => {
                 <Route path="order-history" element={<HistoryOrder />} />
                 <Route path="cancel-history" element={<HistoryCancel />} />
                 <Route path="umaintenace" element={<Accounts />} />
+                <Route path="dmaintenance" element={<EmployeeDispatch />} />
               </Route>
 
               {/*Users*/}

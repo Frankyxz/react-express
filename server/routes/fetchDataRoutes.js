@@ -18,6 +18,7 @@ const {
   percentHistoryRef,
   orderHistoryRef,
   cancelHistoryRef,
+  dispatcherRef,
 } = require("../config/firebase");
 const { fetchData } = require("../fetchData");
 const fetchDataRoutes = express.Router();
@@ -40,4 +41,5 @@ fetchDataRoutes.get("/history-delivery", fetchData(deliveryHistory));
 fetchDataRoutes.get("/history-percentages", fetchData(percentHistoryRef));
 fetchDataRoutes.get("/history-order", fetchData(orderHistoryRef));
 fetchDataRoutes.get("/history-cancel", fetchData(cancelHistoryRef));
+fetchDataRoutes.get("/dispatchers", fetchData(dispatcherRef));
 module.exports = fetchDataRoutes;
