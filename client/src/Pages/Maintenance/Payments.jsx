@@ -4,11 +4,11 @@ import useData from "../../customHooks/useData";
 import useEditModal from "../../customHooks/useEditModal";
 import TextField from "@mui/material/TextField";
 import Table from "../../Components/Table";
-import { url } from "../../js/url";
 import axios from "axios";
-const EmployeeDispatch = () => {
-  const [dispatchName, setDispatchName] = useState("");
-  const dispatchList = useData("dispatcher-list");
+import { url } from "../../js/url";
+const Payments = () => {
+  const [paymentName, setPaymentName] = useState("");
+  const paymentList = useData("payment-list");
   const {
     editItem,
     isEditModalOpen,
@@ -16,45 +16,44 @@ const EmployeeDispatch = () => {
     closeEditModal,
     setEditItem,
   } = useEditModal();
-
-  const handleAddDispatch = async () => {
-    if (dispatchName.trim() === "") {
+  const handleAddPayment = async () => {
+    if (paymentName.trim() === "") {
       alert("Input a value");
       return;
     }
 
     try {
-      const res = await axios.post(`${url}/dispatcher/add`, {
-        name: dispatchName,
+      const res = await axios.post(`${url}/payment/add`, {
+        name: paymentName,
       });
-      dispatchList.fetchData();
-      setDispatchName("");
+      paymentList.fetchData();
+      setPaymentName("");
     } catch (error) {
       console.error("Error adding data: ", error);
     }
   };
 
-  const handleDelete = async (id) => {
-    try {
-      const res = await axios.delete(`${url}/dispatcher/delete/${id}`);
-      dispatchList.fetchData();
-    } catch (error) {
-      console.error("Error deleting data: ", error);
-    }
-  };
   const handleEdit = async () => {
     closeEditModal();
     try {
-      const res = await axios.put(`${url}/dispatcher/edit/${editItem.id}`, {
-        updateName: editItem.empName.trim().toUpperCase(),
+      const res = await axios.put(`${url}/payment/edit/${editItem.id}`, {
+        updateName: editItem.paymentName.trim().toUpperCase(),
       });
-      dispatchList.fetchData();
+      paymentList.fetchData();
     } catch (error) {
       console.error("Error updating Meat: ", error);
     }
   };
+  const handleDelete = async (id) => {
+    try {
+      const res = await axios.delete(`${url}/payment/delete/${id}`);
+      paymentList.fetchData();
+    } catch (error) {
+      console.error("Error deleting data: ", error);
+    }
+  };
   const columns = [
-    { field: "empName", headerName: "Name", flex: 1 },
+    { field: "paymentName", headerName: "Payment Name", flex: 1 },
     {
       field: "actions",
       headerName: "Action",
@@ -84,29 +83,26 @@ const EmployeeDispatch = () => {
   return (
     <>
       <div className="content-container">
-        <h2>Dispatcher</h2>
+        <h2>Mode of Payments List </h2>
         <TextField
           id="outlined-size-small"
-          label="Name"
+          label="Mode of Payment Name"
           variant="outlined"
           size="small"
-          value={dispatchName}
-          onChange={(e) => setDispatchName(e.target.value)}
+          value={paymentName}
+          onChange={(e) => setPaymentName(e.target.value)}
         />
+
         <button
           type="button"
           id="btn-meat"
           className="px-3 btn-primary btn ms-2"
-          onClick={handleAddDispatch}
+          onClick={handleAddPayment}
         >
           Add
         </button>
         <div className="table-container"></div>
-        <Table
-          rows={dispatchList.dataList}
-          columns={columns}
-          height={"400px"}
-        />
+        <Table rows={paymentList.dataList} columns={columns} height={"400px"} />
       </div>
 
       <Modal
@@ -118,19 +114,19 @@ const EmployeeDispatch = () => {
         aria-hidden="true"
       >
         <Modal.Header closeButton>
-          <Modal.Title id="ModalLabel">Edit Name</Modal.Title>
+          <Modal.Title id="ModalLabel">Edit Payment Name</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <Form>
             <Form.Floating className="mb-3">
               <Form.Control
                 type="text"
-                value={editItem ? editItem.empName : ""}
+                value={editItem ? editItem.paymentName : ""}
                 onChange={(e) =>
-                  setEditItem({ ...editItem, empName: e.target.value })
+                  setEditItem({ ...editItem, paymentName: e.target.value })
                 }
               />
-              <label htmlFor="edt-id">Name</label>
+              <label htmlFor="edt-id">Payment Name</label>
             </Form.Floating>
           </Form>
         </Modal.Body>
@@ -147,4 +143,4 @@ const EmployeeDispatch = () => {
   );
 };
 
-export default EmployeeDispatch;
+export default Payments;
