@@ -23,6 +23,7 @@ import HistoryOrder from "./Pages/History/HistoryOrder";
 import HistoryCancel from "./Pages/History/HistoryCancel";
 import EmployeeDispatch from "./Pages/Maintenance/EmployeeDispatch";
 import Payments from "./Pages/Maintenance/Payments";
+import Orders from "./Pages/Orders/Orders";
 const App = () => {
   return (
     <>
@@ -59,6 +60,7 @@ const App = () => {
                 <Route path="umaintenace" element={<Accounts />} />
                 <Route path="dmaintenance" element={<EmployeeDispatch />} />
                 <Route path="pmaintenance" element={<Payments />} />
+                <Route path="orders" element={<Orders />} />
               </Route>
 
               {/*Users*/}

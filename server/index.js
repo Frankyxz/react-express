@@ -20,6 +20,7 @@ const historyRoutes = require("./routes/historyRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const dispatcherRoutes = require("./routes/dispatcherRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const orderOptionsRoutes = require("./routes/orderOptionsRoutes");
 
 app.use(express.json());
 app.use(cors());
@@ -42,6 +43,7 @@ app.use("/history", historyRoutes);
 app.use("/orders", orderRoutes);
 app.use("/dispatcher", dispatcherRoutes);
 app.use("/payment", paymentRoutes);
+app.use("/order-options", orderOptionsRoutes);
 app.listen(8000, () => {
   console.log("Firebase backend");
 });

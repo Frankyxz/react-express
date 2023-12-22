@@ -38,7 +38,6 @@ const Facility = () => {
   const [meatKg, setMeatKg] = useState("");
   const meatTotal = useTotal(meatData, "kg");
   const [brandTotalKgs, setBrandTotalKgs] = useState({});
-  const [qrCode, setQrCode] = useState(null);
   const [qrModal, setQrModal] = useState(false);
   const [qrData, setQrData] = useState(null);
   const [qrDetails, setQrDetails] = useState(null);
@@ -69,9 +68,7 @@ const Facility = () => {
         selectedMeatType,
         selectedParts,
       });
-      console.log(res.data);
       setMeatKg("");
-      setQrCode(JSON.stringify(res.data));
       loadData();
     } catch (error) {
       console.error("Error adding data: ", error);
