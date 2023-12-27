@@ -23,6 +23,7 @@ const {
   ordersRef,
   orderListRef,
   pendingTableRef,
+  rawQueueRef,
 } = require("../config/firebase");
 const { fetchData } = require("../fetchData");
 const fetchDataRoutes = express.Router();
@@ -50,4 +51,5 @@ fetchDataRoutes.get("/payment-list", fetchData(paymentsRef));
 fetchDataRoutes.get("/orders", fetchData(ordersRef));
 fetchDataRoutes.get("/orders-list", fetchData(orderListRef));
 fetchDataRoutes.get("/pending-list", fetchData(pendingTableRef));
+fetchDataRoutes.get("/raw-queue", fetchData(rawQueueRef));
 module.exports = fetchDataRoutes;

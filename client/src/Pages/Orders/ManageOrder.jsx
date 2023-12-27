@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
@@ -7,7 +7,6 @@ import useData from "../../customHooks/useData";
 import OrderDetailsModal from "../../Components/OrderDetailsModal";
 import useLogin from "../../stores/useLogin";
 import useSeeDetails from "../../customHooks/useSeeDetails";
-import Table from "../../Components/Table";
 import axios from "axios";
 import { url } from "../../js/url";
 const ManageOrder = () => {
@@ -16,8 +15,6 @@ const ManageOrder = () => {
   const { orderDetails, showModal, handleSeeDetails, handleCloseModal } =
     useSeeDetails("order-list");
   const [isLoading, setIsLoading] = useState(false);
-  const [editPriceOpen, setEditPriceOpen] = useState(false);
-  const [editPrice, setEditPrice] = useState(null);
   const [cancelModal, setCancelModal] = useState(false);
   const [cancelOrder, setCancelOrder] = useState(null);
   const [cancelRemarks, setCancelRemarks] = useState("");

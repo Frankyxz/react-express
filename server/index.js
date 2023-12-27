@@ -21,6 +21,7 @@ const orderRoutes = require("./routes/orderRoutes");
 const dispatcherRoutes = require("./routes/dispatcherRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
 const orderOptionsRoutes = require("./routes/orderOptionsRoutes");
+const rawMeatRoutes = require("./routes/rawMeatRoutes");
 
 app.use(express.json());
 app.use(cors());
@@ -44,6 +45,7 @@ app.use("/orders", orderRoutes);
 app.use("/dispatcher", dispatcherRoutes);
 app.use("/payment", paymentRoutes);
 app.use("/order-options", orderOptionsRoutes);
+app.use("/raw", rawMeatRoutes);
 app.listen(8000, () => {
   console.log("Firebase backend");
 });
