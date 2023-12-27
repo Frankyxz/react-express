@@ -15,7 +15,6 @@ const useFetchMeatPart = () => {
         meatCollection,
       });
       setMeatPartTotals(res.data);
-      console.log(res.data);
     } catch (error) {
       console.error(`Error fetching data:`, error);
     }
@@ -25,7 +24,6 @@ const useFetchMeatPart = () => {
     try {
       const res = await axios.get(`${url}/meatPart/fetch-combine`);
       setMeatCollection(res.data);
-      console.log(res);
     } catch (error) {
       console.error("Error loading meat options: ", error);
     }

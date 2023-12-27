@@ -41,11 +41,13 @@ const paymentsRef = collection(db, "PAYMENTS");
 const ordersRef = collection(db, "ORDERS");
 const pendingTableRef = collection(db, "PENDING");
 const rawQueueRef = collection(db, "RAW_QUEUEUE");
+
 //Counters
 const facilityCounter = doc(db, "counters", "FacilityCounter");
 const processCounter = doc(db, "counters", "ProcessCounter");
 const scrapCounter = doc(db, "counters", "ScrapCounter");
 const orderCounter = doc(db, "counters", "OrderCounter");
+const levelStock = doc(db, "stockLevel", "level");
 
 //For Delivery
 const deliverProcess = doc(db, "deliverKg", "Ongoing");
@@ -86,4 +88,5 @@ module.exports = {
   orderCounter,
   pendingTableRef,
   rawQueueRef,
+  levelStock,
 };
