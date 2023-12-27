@@ -17,6 +17,8 @@ const {
   comissaryRef,
   ordersRef,
   orderCounter,
+  facilityInventoryRef,
+  pendingTableRef,
 } = require("../config/firebase");
 const { formattedDate } = require("../dates");
 
@@ -191,4 +193,127 @@ orderRoutes.post("/confirm/", async (req, res) => {
   }
 });
 
+// Manage Order
+orderRoutes.post("/cancel-order/", async (req, res) => {
+  const { cancelOrder, user, cancelRemarks } = req.body;
+  try {
+    const orderRef = doc(orderListRef, cancelOrder.id);
+    const orderSnapshot = await getDoc(orderRef);
+    const orderData = orderSnapshot.data();
+    const { orders = [], type = "" } = orderData;
+
+    const batch = writeBatch(db);
+
+    for (const order of orders) {
+      if (type === "Raw") {
+        const { brandId, brandName, dateAdded, id, kg, meatType, meatPart } =
+          order;
+
+        const facilityRef = doc(facilityInventoryRef, id);
+
+        batch.set(facilityRef, {
+          brandId,
+          brandName,
+          dateAdded,
+          kg,
+          meatType,
+          meatPart,
+          combine: `${meatType} ${meatPart}`,
+        });
+      } else {
+        const { brandName, kg } = order;
+        const comissaryQuerySnapshot = await getDocs(comissaryRef);
+        const comissaryDoc = comissaryQuerySnapshot.docs.find(
+          (doc) => doc.data().processedMeat === brandName
+        );
+
+        if (comissaryDoc) {
+          const comissaryDocRef = doc(comissaryRef, comissaryDoc.id);
+          const comissaryQuantity = comissaryDoc.data().quantity;
+
+          batch.update(comissaryDocRef, {
+            quantity: comissaryQuantity + kg,
+          });
+        }
+      }
+    }
+    const newCancelDocRef = doc(cancelHistoryRef, cancelOrder.id);
+
+    const cancelHistory = {
+      id: cancelOrder.id,
+      customerName: cancelOrder.customerName,
+      date: cancelOrder.date,
+      orders: orders,
+      remarks: cancelRemarks,
+      cancelBy: user,
+      totalPrice: cancelOrder.totalPrice,
+      type: cancelOrder.type,
+      setPrice:
+        cancelOrder.type === "Raw" && cancelOrder.setPrice !== undefined
+          ? cancelOrder.setPrice
+          : null,
+    };
+
+    batch.delete(orderRef);
+    batch.set(newCancelDocRef, cancelHistory);
+    await batch.commit();
+    res.send({ message: "success" });
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(error);
+  }
+});
+
+orderRoutes.post("/confirm-order/:id", async (req, res) => {
+  const confirmID = req.params.id;
+  try {
+    const batch = writeBatch(db);
+    const orderRef = doc(orderListRef, confirmID);
+    const orderSnapshot = await getDoc(orderRef);
+
+    const orderData = orderSnapshot.data();
+    const {
+      id,
+      customerName,
+      date,
+      modeOfPayment,
+      orders,
+      processedBy,
+      totalPrice,
+      type,
+      setPrice = "",
+    } = orderData;
+
+    batch.delete(orderRef);
+
+    const newOrderDocRef = doc(orderHistoryRef, id);
+    const dataToTransfer = {
+      id,
+      customerName,
+      date,
+      modeOfPayment,
+      orders,
+      processedBy,
+      totalPrice,
+      type,
+      setPrice: type === "Raw" ? setPrice : null,
+    };
+
+    batch.set(newOrderDocRef, dataToTransfer);
+
+    if (modeOfPayment === "PENDING") {
+      const newPendingDocRef = doc(pendingTableRef, id);
+      const dataForPending = {
+        ...dataToTransfer,
+      };
+      batch.set(newPendingDocRef, dataForPending);
+    }
+
+    await batch.commit();
+    res.send({ message: "success" });
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(error);
+  }
+});
 module.exports = orderRoutes;

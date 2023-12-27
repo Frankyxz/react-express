@@ -39,6 +39,7 @@ const orderListRef = collection(db, "ORDERS_LIST");
 const dispatcherRef = collection(db, "DISPATCHERS");
 const paymentsRef = collection(db, "PAYMENTS");
 const ordersRef = collection(db, "ORDERS");
+const pendingTableRef = collection(db, "PENDING");
 //Counters
 const facilityCounter = doc(db, "counters", "FacilityCounter");
 const processCounter = doc(db, "counters", "ProcessCounter");
@@ -82,4 +83,5 @@ module.exports = {
   paymentsRef,
   ordersRef,
   orderCounter,
+  pendingTableRef,
 };
