@@ -25,6 +25,7 @@ import EmployeeDispatch from "./Pages/Maintenance/EmployeeDispatch";
 import Payments from "./Pages/Maintenance/Payments";
 import Orders from "./Pages/Orders/Orders";
 import ManageOrder from "./Pages/Orders/ManageOrder";
+import Pending from "./Pages/Orders/Pending";
 const App = () => {
   return (
     <>
@@ -63,6 +64,7 @@ const App = () => {
                 <Route path="pmaintenance" element={<Payments />} />
                 <Route path="orders" element={<Orders />} />
                 <Route path="manage-orders" element={<ManageOrder />} />
+                <Route path="acc-receivable" element={<Pending />} />
               </Route>
 
               {/*Users*/}

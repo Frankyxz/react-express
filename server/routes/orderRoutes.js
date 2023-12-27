@@ -32,7 +32,9 @@ orderRoutes.get("/:dataRef/:id", async (req, res) => {
       ? orderHistoryRef
       : dataRef == "cancel"
       ? cancelHistoryRef
-      : orderListRef;
+      : dataRef == "order-list"
+      ? orderListRef
+      : pendingTableRef;
   try {
     const orderRef = doc(ref, id);
     const orderSnapshot = await getDoc(orderRef);
@@ -316,4 +318,24 @@ orderRoutes.post("/confirm-order/:id", async (req, res) => {
     console.log(error);
   }
 });
+
+//Pending Order
+orderRoutes.put("/confirm-pending/:id", async (req, res) => {
+  const id = req.params.id;
+  const modeOfPayment = req.body.mop;
+  try {
+    const historyRef = doc(orderHistoryRef, id);
+    const pendingRef = doc(pendingTableRef, id);
+
+    await updateDoc(historyRef, {
+      modeOfPayment: modeOfPayment.toUpperCase(),
+    });
+    await deleteDoc(pendingRef, id);
+    res.send({ message: "success" });
+  } catch (error) {
+    res.status(500).send(error);
+    console.log(error);
+  }
+});
+
 module.exports = orderRoutes;
