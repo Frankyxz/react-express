@@ -44,7 +44,7 @@ reportRoutes.get("/moving-products", async (req, res) => {
     const topProducts = products;
     res.send({ products: topProducts });
   } catch (error) {
-    res.send(error);
+    res.send({ message: "Internal server error" });
   }
 });
 

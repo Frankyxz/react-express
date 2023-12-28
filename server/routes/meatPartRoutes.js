@@ -1,18 +1,6 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-} = require("firebase/firestore");
-const {
-  partRef,
-  facilityInventoryRef,
-  comissaryRef,
-} = require("../config/firebase");
+const { getDocs, query, where, addDoc, deleteDoc, updateDoc, doc } = require("firebase/firestore");
+const { partRef, facilityInventoryRef, comissaryRef } = require("../config/firebase");
 
 const meatPartRoutes = express.Router();
 
@@ -27,7 +15,7 @@ meatPartRoutes.post("/add-part", async (req, res) => {
     await addDoc(partRef, meatPart);
     res.send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 //Delete
@@ -49,7 +37,7 @@ meatPartRoutes.delete("/delete-part/:id", async (req, res) => {
     await deleteDoc(entryRef);
     res.send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 //Validate First
@@ -64,14 +52,12 @@ meatPartRoutes.get("/validate-edit/", async (req, res) => {
 
     const querySnapshot = await getDocs(partsRef);
     if (!querySnapshot.empty) {
-      res
-        .status(200)
-        .json({ message: "There are data inside", canEdit: false });
+      res.send({ message: "There are data inside", canEdit: false });
       return;
     }
-    res.status(200).json({ canEdit: true });
+    res.send({ canEdit: true });
   } catch (error) {
-    res.status(500).send("Internal Server Error");
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -88,7 +74,6 @@ meatPartRoutes.put("/edit-part/:id", async (req, res) => {
     });
     res.status(200).send("Meat updated successfully.");
   } catch (error) {
-    console.error(error);
     res.status(500).send("Internal Server Error");
   }
 });
@@ -98,10 +83,9 @@ meatPartRoutes.get("/fetch-combine/", async (req, res) => {
   try {
     const querySnapshot = await getDocs(partRef);
     const options = querySnapshot.docs.map((doc) => doc.data().combined);
-    res.json(options);
+    res.send(options);
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+    res.send({ message: "Internal server error" });
   }
 });
 
@@ -112,10 +96,9 @@ meatPartRoutes.get("/fetch-partner/:selectedMeatType", async (req, res) => {
     const options = querySnapshot.docs
       .filter((doc) => doc.data().meatType === selectedMeatType)
       .map((doc) => doc.data().processedMeat);
-    res.json(options);
+    res.send(options);
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -124,7 +107,6 @@ meatPartRoutes.post("/fetch-meatTotal/", async (req, res) => {
   const { meatCollection } = req.body;
   try {
     if (meatCollection && meatCollection.length > 0) {
-      // Fetch facility items
       const facilityItems = await getDocs(facilityInventoryRef);
       const facilityItemsArray = facilityItems.docs.map((doc) => doc.data());
       const totalKgs = {};
@@ -139,17 +121,14 @@ meatPartRoutes.post("/fetch-meatTotal/", async (req, res) => {
 
         if (meatCollection.includes(combine)) {
           totalKgs[combine] += kg;
-        } else {
-          console.warn(`Not found in meat Collection`);
         }
       });
-      res.json(totalKgs);
+      res.send(totalKgs);
     } else {
-      res.json({});
+      res.send({});
     }
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+      res.send({ message: "Internal server error" });
   }
 });
 

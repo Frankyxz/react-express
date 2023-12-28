@@ -1,15 +1,5 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  getDoc,
-  setDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-} = require("firebase/firestore");
+const { getDoc, setDoc, deleteDoc, updateDoc, doc } = require("firebase/firestore");
 const { formattedDate } = require("../dates");
 const { facilityInventoryRef, facilityCounter } = require("../config/firebase");
 
@@ -41,7 +31,7 @@ facilityRoutes.post("/add-box/", async (req, res) => {
     await setDoc(facilityCounter, { value: num });
     res.send({ num, type, brandName, meatKg });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -53,7 +43,7 @@ facilityRoutes.delete("/delete-box/:id", async (req, res) => {
     await deleteDoc(entryRef);
     res.send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -68,10 +58,10 @@ facilityRoutes.put("/edit-box/:id", async (req, res) => {
 
     await updateDoc(entryRef, { kg: parseFloat(kg) });
 
-    res.status(200).json({ message: "Item updated successfully." });
+    res.send({ message: "Item updated successfully." });
   } catch (error) {
     console.error("Error updating KG:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.send({ error: "Internal Server Error" });
   }
 });
 module.exports = facilityRoutes;

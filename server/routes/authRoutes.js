@@ -1,14 +1,5 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  doc,
-  deleteDoc,
-  updateDoc,
-  getDoc,
-} = require("firebase/firestore");
+const { getDocs, query, where, addDoc, doc, deleteDoc, updateDoc, getDoc } = require("firebase/firestore");
 const { usersRef } = require("../config/firebase");
 
 const authRoutes = express.Router();
@@ -56,7 +47,7 @@ authRoutes.put("/edit-user/:id", async (req, res) => {
     });
     res.send({ message: "success" });
   } catch (error) {
-    res.status(500).send({ success: false, message: "Internal server error" });
+    res.send({ success: false, message: "Internal server error" });
   }
 });
 
@@ -79,7 +70,7 @@ authRoutes.post("/login", async (req, res) => {
       res.send({ success: false });
     }
   } catch (error) {
-    res.status(500).send({ success: false, message: "Internal server error" });
+    res.send({ success: false, message: "Internal server error" });
   }
 });
 

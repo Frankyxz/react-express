@@ -1,25 +1,6 @@
 const express = require("express");
-const {
-  getDocs,
-  addDoc,
-  setDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-  getDoc,
-  writeBatch,
-} = require("firebase/firestore");
-const {
-  db,
-  orderHistoryRef,
-  orderListRef,
-  cancelHistoryRef,
-  comissaryRef,
-  ordersRef,
-  orderCounter,
-  facilityInventoryRef,
-  pendingTableRef,
-} = require("../config/firebase");
+const { getDocs, addDoc, setDoc, deleteDoc, updateDoc, doc, getDoc, writeBatch } = require("firebase/firestore");
+const { db, orderHistoryRef, orderListRef, cancelHistoryRef, comissaryRef, ordersRef, orderCounter, facilityInventoryRef, pendingTableRef } = require("../config/firebase");
 const { formattedDate } = require("../dates");
 
 const orderRoutes = express.Router();
@@ -41,7 +22,7 @@ orderRoutes.get("/:dataRef/:id", async (req, res) => {
     const orderData = orderSnapshot.data() || {};
     res.send({ orderData });
   } catch (error) {
-    res.send(error);
+    res.send({ message: "Internal server error" });
   }
 });
 
@@ -54,7 +35,7 @@ orderRoutes.get("/processed-list", async (req, res) => {
       .map((data) => data.processedMeat);
     res.send({ options });
   } catch (error) {
-    res.send(error);
+    res.send({ message: "Internal server error" });
   }
 });
 

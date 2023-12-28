@@ -1,14 +1,5 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-  getDoc,
-} = require("firebase/firestore");
+const { doc, getDoc } = require("firebase/firestore");
 const { deliveryHistory, percentHistoryRef } = require("../config/firebase");
 
 const historyRoutes = express.Router();
@@ -26,7 +17,7 @@ historyRoutes.get("/delivery/:id", async (req, res) => {
     } = recordData;
     res.send({ expectedTotal, receivedMeat, dateConfirm });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 historyRoutes.get("/percentages/:id", async (req, res) => {
@@ -43,7 +34,7 @@ historyRoutes.get("/percentages/:id", async (req, res) => {
     } = recordData;
     res.send({ madeToday, receivedToday, date, percentages });
   } catch (error) {
-    res.send(error);
+    res.send({ message: "Internal server error" });
   }
 });
 module.exports = historyRoutes;

@@ -1,14 +1,5 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  doc,
-  deleteDoc,
-  updateDoc,
-  getDoc,
-} = require("firebase/firestore");
+const { addDoc, doc, deleteDoc, updateDoc } = require("firebase/firestore");
 const { dispatcherRef } = require("../config/firebase");
 
 const dispatcherRoutes = express.Router();

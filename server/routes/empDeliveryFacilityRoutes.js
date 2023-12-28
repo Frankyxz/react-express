@@ -1,29 +1,6 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  getDoc,
-  setDoc,
-  deleteDoc,
-  updateDoc,
-  writeBatch,
-  doc,
-} = require("firebase/firestore");
-const {
-  db,
-  deliveryQRef,
-  empDeliverRef,
-  deliverStats,
-  deliverRef,
-  deliverProcess,
-  deliverInfo,
-  deliverTableRef,
-  boxesReceivedRef,
-  expectTotalRef,
-  receivedTableRef,
-} = require("../config/firebase");
+const { getDocs, getDoc, setDoc, deleteDoc, writeBatch, doc } = require("firebase/firestore");
+const { db, deliveryQRef, empDeliverRef, deliverStats, deliverRef, deliverInfo, deliverTableRef, boxesReceivedRef, expectTotalRef, receivedTableRef } = require("../config/firebase");
 const { formattedDate } = require("../dates");
 
 const empDeliveryFacilityRoutes = express.Router();
@@ -46,7 +23,7 @@ empDeliveryFacilityRoutes.post("/scan-box/", async (req, res) => {
     await setDoc(empRef, addTotalKg);
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 //Delete
@@ -56,7 +33,7 @@ empDeliveryFacilityRoutes.delete("/delete-box/:id", async (req, res) => {
     await deleteDoc(entryRef);
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 //For disabling modal
@@ -65,7 +42,7 @@ empDeliveryFacilityRoutes.post("/close-deliver/", async (req, res) => {
     await setDoc(deliverStats, { value: parseFloat(0) });
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -76,7 +53,7 @@ empDeliveryFacilityRoutes.get("/notification/", async (req, res) => {
     let val = data.data()?.value || 0;
     res.send({ val: val });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -202,7 +179,7 @@ empDeliveryFacilityRoutes.post("/count-data/", async (req, res) => {
 
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 

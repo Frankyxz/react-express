@@ -1,20 +1,6 @@
 const express = require("express");
-const {
-  doc,
-  getDocs,
-  setDoc,
-  getDoc,
-  updateDoc,
-  deleteDoc,
-  writeBatch,
-} = require("firebase/firestore");
-const {
-  db,
-  facilityInventoryRef,
-  orderCounter,
-  orderListRef,
-  rawQueueRef,
-} = require("../config/firebase");
+const { doc, getDocs, setDoc, getDoc, deleteDoc, writeBatch } = require("firebase/firestore");
+const { db, facilityInventoryRef, orderCounter, orderListRef, rawQueueRef } = require("../config/firebase");
 const { formattedDate } = require("../dates");
 
 const rawMeatRoutes = express.Router();
@@ -48,7 +34,7 @@ rawMeatRoutes.post("/scan-box/", async (req, res) => {
     await deleteDoc(entryMeatRef);
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 rawMeatRoutes.delete("/remove-box/", async (req, res) => {
@@ -80,7 +66,7 @@ rawMeatRoutes.delete("/remove-box/", async (req, res) => {
 
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -129,7 +115,7 @@ rawMeatRoutes.post("/confirm/", async (req, res) => {
     await setDoc(orderCounter, { value: num });
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 

@@ -1,22 +1,12 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-} = require("firebase/firestore");
+const { getDocs, query, where, addDoc, deleteDoc, updateDoc, doc } = require("firebase/firestore");
 const { meatRef, partRef } = require("../config/firebase");
 
 const meatRoutes = express.Router();
 
 // Add
 meatRoutes.post("/add-meat", async (req, res) => {
-  const meat = {
-    Meat: req.body.meatName,
-  };
+  const meat = { Meat: req.body.meatName };
   try {
     const q = query(meatRef, where("Meat", "==", meat.Meat));
     const querySnapshot = await getDocs(q);
@@ -28,7 +18,7 @@ meatRoutes.post("/add-meat", async (req, res) => {
       res.send("Meat type already exists");
     }
   } catch (error) {
-    res.send(error);
+    res.send({ message: "Internal server error" });
   }
 });
 
@@ -50,7 +40,7 @@ meatRoutes.delete("/delete-meat/:id", async (req, res) => {
       res.send("Cannot delete");
     }
   } catch (error) {
-    console.error(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -63,13 +53,12 @@ meatRoutes.get("/validate-edit/:meatType", async (req, res) => {
     );
 
     if (querySnapshot.empty) {
-      res.status(200).json({ canEdit: true });
+      res.send({ canEdit: true });
     } else {
-      res.status(200).json({ canEdit: false });
+      res.send({ canEdit: false });
     }
   } catch (error) {
-    console.error("Error validating edit: ", error);
-    res.status(500).send("Internal Server Error");
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -80,10 +69,9 @@ meatRoutes.put("/edit-meat/:id", async (req, res) => {
     const { Meat } = req.body;
     const meatDocRef = doc(meatRef, id);
     await updateDoc(meatDocRef, { Meat: Meat });
-    res.status(200).send("Meat updated successfully.");
+    res.send("Meat updated successfully.");
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+      res.send({ message: "Internal server error" });
   }
 });
 

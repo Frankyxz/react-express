@@ -1,31 +1,8 @@
 const express = require("express");
-const {
-  collection,
-  doc,
-  getDocs,
-  onSnapshot,
-  setDoc,
-  addDoc,
-  getDoc,
-  writeBatch,
-  updateDoc,
-  deleteDoc,
-  orderBy,
-  query,
-  limit,
-} = require("firebase/firestore");
+const { doc, getDocs,  setDoc,  getDoc, writeBatch, updateDoc, orderBy, query, limit } = require("firebase/firestore");
 const { formattedDate } = require("../dates");
-const {
-  db,
-  deliverInfo,
-  allTotalRef,
-  deliveryHistory,
-  deliverTableRef,
-  receivedTableRef,
-  expectTotalRef,
-  boxesReceivedRef,
-} = require("../config/firebase");
-const { fetchData } = require("../fetchData");
+const { db, deliverInfo, allTotalRef, deliveryHistory, deliverTableRef, receivedTableRef, expectTotalRef, boxesReceivedRef } = require("../config/firebase");
+
 const deliveryAdminRoutes = express.Router();
 
 deliveryAdminRoutes.get("/deliver-details/", async (req, res) => {
@@ -35,20 +12,12 @@ deliveryAdminRoutes.get("/deliver-details/", async (req, res) => {
     const remarks = docSnapshot.data()?.remarks || "";
     res.send({ deliveryBy, remarks });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
 deliveryAdminRoutes.post("/process-delivery/", async (req, res) => {
-  const {
-    deliverTotalKg,
-    receivedTotalKg,
-    deliveryInfo,
-    remarks,
-    user,
-    expectedTotalData,
-    receivedMeat,
-  } = req.body;
+  const { deliverTotalKg, receivedTotalKg, deliveryInfo, remarks, user, expectedTotalData, receivedMeat } = req.body;
 
   const deliveryBy = deliveryInfo.deliveryBy;
   try {
@@ -179,7 +148,7 @@ deliveryAdminRoutes.post("/process-delivery/", async (req, res) => {
 
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 module.exports = deliveryAdminRoutes;

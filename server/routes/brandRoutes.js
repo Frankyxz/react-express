@@ -1,13 +1,5 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-} = require("firebase/firestore");
+const { addDoc, deleteDoc, updateDoc, doc } = require("firebase/firestore");
 const { brandRef } = require("../config/firebase");
 
 const brandRoutes = express.Router();
@@ -23,7 +15,7 @@ brandRoutes.post("/add-brand", async (req, res) => {
     await addDoc(brandRef, brand);
     res.send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 //Delete
@@ -34,7 +26,7 @@ brandRoutes.delete("/delete-brand/:id", async (req, res) => {
     await deleteDoc(entryRef);
     res.send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 brandRoutes.put("/edit-brand/:id", async (req, res) => {
@@ -47,10 +39,9 @@ brandRoutes.put("/edit-brand/:id", async (req, res) => {
       meatType: meatType,
       meatPart: meatPart,
     });
-    res.status(200).send("Brand updated successfully.");
+    res.send("Brand updated successfully.");
   } catch (error) {
-    console.error(error);
-    res.status(500).send("Internal Server Error");
+  res.send({ message: "Internal server error" });
   }
 });
 module.exports = brandRoutes;

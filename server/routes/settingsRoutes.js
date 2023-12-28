@@ -26,7 +26,7 @@ settingsRoutes.put("/set-level", async (req, res) => {
     });
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+    res.send({ message: "Internal server error" });
   }
 });
 

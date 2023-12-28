@@ -1,30 +1,6 @@
 const express = require("express");
-const {
-  meatRef,
-  usersRef,
-  partRef,
-  brandRef,
-  comissaryRef,
-  deliveryQRef,
-  facilityInventoryRef,
-  empDeliverRef,
-  deliverTableRef,
-  boxesReceivedRef,
-  receivedTableRef,
-  expectTotalRef,
-  totalProcessedRef,
-  allTotalRef,
-  deliveryHistory,
-  percentHistoryRef,
-  orderHistoryRef,
-  cancelHistoryRef,
-  dispatcherRef,
-  paymentsRef,
-  ordersRef,
-  orderListRef,
-  pendingTableRef,
-  rawQueueRef,
-} = require("../config/firebase");
+const { meatRef, usersRef, partRef, brandRef, comissaryRef, deliveryQRef, facilityInventoryRef, empDeliverRef, deliverTableRef, boxesReceivedRef, receivedTableRef, expectTotalRef, totalProcessedRef, allTotalRef, deliveryHistory, percentHistoryRef, orderHistoryRef, cancelHistoryRef, dispatcherRef, paymentsRef, ordersRef, orderListRef, pendingTableRef, rawQueueRef } = require("../config/firebase");
+
 const { fetchData } = require("../fetchData");
 const fetchDataRoutes = express.Router();
 

@@ -14,7 +14,7 @@ dashboardRoutes.get("/levels", async (req, res) => {
       res.send({ raw, process });
     }
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 dashboardRoutes.get("/delivered-today", async (req, res) => {
@@ -29,7 +29,7 @@ dashboardRoutes.get("/delivered-today", async (req, res) => {
       res.send({ kiloDelivered: 0 });
     }
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 module.exports = dashboardRoutes;

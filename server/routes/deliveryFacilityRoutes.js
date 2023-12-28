@@ -1,23 +1,6 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  getDoc,
-  setDoc,
-  deleteDoc,
-  updateDoc,
-  writeBatch,
-  doc,
-} = require("firebase/firestore");
-const {
-  db,
-  facilityInventoryRef,
-  deliveryQRef,
-  deliverRef,
-  deliverStats,
-} = require("../config/firebase");
+const { getDoc, setDoc, deleteDoc, writeBatch, doc } = require("firebase/firestore");
+const { db, facilityInventoryRef, deliveryQRef, deliverRef, deliverStats } = require("../config/firebase");
 
 const deliveryFacilityRoutes = express.Router();
 
@@ -49,7 +32,7 @@ deliveryFacilityRoutes.post("/scan-box/", async (req, res) => {
     await deleteDoc(entryMeatRef);
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -80,7 +63,7 @@ deliveryFacilityRoutes.delete("/remove-box/", async (req, res) => {
     await batch.commit();
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -93,7 +76,7 @@ deliveryFacilityRoutes.post("/set-delivery/", async (req, res) => {
 
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 //Set the kg
@@ -103,7 +86,7 @@ deliveryFacilityRoutes.post("/cancel-delivery/", async (req, res) => {
     await setDoc(deliverStats, { value: parseFloat(2) });
     res.send({ message: "success" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
@@ -114,7 +97,7 @@ deliveryFacilityRoutes.get("/set-kg/", async (req, res) => {
     let kgNum = docSnapshot.data()?.value || 0;
     res.send({ kg: kgNum });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 

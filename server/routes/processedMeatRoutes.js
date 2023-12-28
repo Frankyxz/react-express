@@ -1,36 +1,12 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  getDoc,
-  where,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  setDoc,
-  writeBatch,
-  doc,
-} = require("firebase/firestore");
-
-const {
-  db,
-  comissaryRef,
-  processCounter,
-  scrapCounter,
-} = require("../config/firebase");
+const { getDoc, updateDoc, setDoc, writeBatch, doc } = require("firebase/firestore");
+const { db, comissaryRef, processCounter, scrapCounter } = require("../config/firebase");
 
 const processedMeatRoutes = express.Router();
 
 processedMeatRoutes.post("/add-process", async (req, res) => {
   try {
-    const {
-      meatProcessedName,
-      retailPrice,
-      wholeSalePrice,
-      selectedParts,
-      retailScrap,
-      wholeSaleScrap,
-    } = req.body;
+    const { meatProcessedName, retailPrice, wholeSalePrice, selectedParts, retailScrap, wholeSaleScrap } = req.body;
 
     // Fetch counters
     const counterDoc = await getDoc(processCounter);
@@ -83,10 +59,9 @@ processedMeatRoutes.post("/add-process", async (req, res) => {
     await setDoc(processCounter, { value: num });
     await setDoc(scrapCounter, { value: scrapNum });
 
-    res.status(200).json({ message: "Meat processing successful." });
+    res.send({ message: "Meat processing successful." });
   } catch (error) {
-    console.error("Error processing meat:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.send({ message: "Internal Server Error" });
   }
 });
 
@@ -108,7 +83,7 @@ processedMeatRoutes.delete(
 
       res.send({ message: "sucesss" });
     } catch (error) {
-      res.send(error);
+      res.send({ message: "Internal server error" });
     }
   }
 );
@@ -122,9 +97,9 @@ processedMeatRoutes.get("/quantity-process/:id", async (req, res) => {
     const comInventorySnapshot = await getDoc(comInventoryRef);
     const quantity = comInventorySnapshot.data().quantity;
 
-    res.status(200).json({ quantity });
+    res.send({ quantity });
   } catch (error) {
-    res.send(error);
+    res.send({ message: "Internal server error" });
   }
 });
 
@@ -147,10 +122,9 @@ processedMeatRoutes.put("/edit-process/:id", async (req, res) => {
 
     await batch.commit();
 
-    res.status(200).json({ message: "Item updated successfully." });
+    res.send({ message: "Item updated successfully." });
   } catch (error) {
-    console.error("Error updating KG:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.send({ message: "Internal Server Error" });
   }
 });
 
@@ -165,10 +139,9 @@ processedMeatRoutes.put("/edit-process-quantity/:id", async (req, res) => {
 
     await updateDoc(entryRef, { quantity: parseFloat(quantity) });
 
-    res.status(200).json({ message: "Item updated successfully." });
+    res.send({ message: "Item updated successfully." });
   } catch (error) {
-    console.error("Error updating KG:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.send({ message: "Internal Server Error" });
   }
 });
 

@@ -1,24 +1,7 @@
 const express = require("express");
-const {
-  query,
-  where,
-  getDocs,
-  addDoc,
-  deleteDoc,
-  writeBatch,
-  doc,
-  setDoc,
-  updateDoc,
-} = require("firebase/firestore");
-const {
-  comissaryRef,
-  db,
-  totalProcessedRef,
-  allTotalRef,
-  receivedTableRef,
-  percentHistoryRef,
-  partRef,
-} = require("../config/firebase");
+const { query, where, getDocs, addDoc, deleteDoc, writeBatch, doc, setDoc, updateDoc } = require("firebase/firestore");
+const { comissaryRef, db, totalProcessedRef, allTotalRef, receivedTableRef, percentHistoryRef } = require("../config/firebase");
+
 const calculateRoutes = express.Router();
 
 calculateRoutes.post("/add-processed-total", async (req, res) => {
@@ -35,7 +18,7 @@ calculateRoutes.post("/add-processed-total", async (req, res) => {
     await addDoc(totalProcessedRef, addTotal);
     res.send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+    res.send({ message: "Internal server error" });
   }
 });
 
@@ -46,7 +29,7 @@ calculateRoutes.delete("/delete-processed-total/:id", async (req, res) => {
     await deleteDoc(entryRef);
     res.send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 //Edit
@@ -57,7 +40,7 @@ calculateRoutes.put("/edit-processed-total/:id", async (req, res) => {
     await updateDoc(entryRef, { totalKg: parseFloat(req.body.totalKg) });
     res.send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+    res.send("Internal Server Error");
   }
 });
 
@@ -109,18 +92,12 @@ calculateRoutes.post("/validate/", async (req, res) => {
     }
     res.status(200).send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 
 calculateRoutes.post("/submit-processed/", async (req, res) => {
-  const {
-    receivedTotalData,
-    totalData,
-    totalKGReceived,
-    totalKgProcessed,
-    totalScrap,
-  } = req.body;
+  const { receivedTotalData, totalData, totalKGReceived, totalKgProcessed, totalScrap } = req.body;
   const receivedTotalDate =
     receivedTotalData.dataList.length > 0
       ? receivedTotalData.dataList[0].date
@@ -212,7 +189,7 @@ calculateRoutes.post("/submit-processed/", async (req, res) => {
 
     res.send({ message: "sucesss" });
   } catch (error) {
-    res.send(error);
+      res.send({ message: "Internal server error" });
   }
 });
 module.exports = calculateRoutes;

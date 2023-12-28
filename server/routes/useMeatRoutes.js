@@ -1,19 +1,6 @@
 const express = require("express");
-const {
-  getDocs,
-  query,
-  where,
-  addDoc,
-  deleteDoc,
-  updateDoc,
-  doc,
-} = require("firebase/firestore");
-const {
-  meatRef,
-  partRef,
-  facilityInventoryRef,
-  brandRef,
-} = require("../config/firebase");
+const { getDocs, query, where } = require("firebase/firestore");
+const { meatRef, partRef, facilityInventoryRef, brandRef } = require("../config/firebase");
 
 const useMeatRoutes = express.Router();
 
@@ -22,10 +9,9 @@ useMeatRoutes.get("/fetch-meat", async (req, res) => {
     const querySnapshot = await getDocs(meatRef);
     const options = querySnapshot.docs.map((doc) => doc.data().Meat);
 
-    res.json(options);
+    res.send(options);
   } catch (error) {
-    console.error("Error loading meat options: ", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.send({ message: "Internal Server Error" });
   }
 });
 
@@ -38,16 +24,13 @@ useMeatRoutes.get("/fetch-part/:selectedMeatType", async (req, res) => {
     const querySnapshot = await getDocs(partsRef);
     const options = querySnapshot.docs.map((doc) => doc.data().meatPart);
 
-    res.json(options);
+    res.send(options);
   } catch (error) {
-    console.error("Error loading meat options: ", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    res.send({ message: "Internal Server Error" });
   }
 });
 
-useMeatRoutes.get(
-  "/fetch-box/:selectedMeatType/:selectedParts",
-  async (req, res) => {
+useMeatRoutes.get("/fetch-box/:selectedMeatType/:selectedParts", async (req, res) => {
     try {
       const { selectedMeatType, selectedParts } = req.params;
 
@@ -61,17 +44,14 @@ useMeatRoutes.get(
         id: doc.id,
         ...doc.data(),
       }));
-      res.json(data);
+      res.send(data);
     } catch (error) {
-      console.error("Error loading meat options: ", error);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.send({ error: "Internal Server Error" });
     }
   }
 );
 
-useMeatRoutes.get(
-  "/fetch-brand/:selectedMeatType/:selectedParts",
-  async (req, res) => {
+useMeatRoutes.get("/fetch-brand/:selectedMeatType/:selectedParts", async (req, res) => {
     try {
       const { selectedMeatType, selectedParts } = req.params;
 
@@ -82,10 +62,9 @@ useMeatRoutes.get(
       );
       const querySnapshot = await getDocs(ref);
       const options = querySnapshot.docs.map((doc) => doc.data().brandName);
-      res.json(options);
+      res.send(options);
     } catch (error) {
-      console.error("Error loading meat options: ", error);
-      res.status(500).json({ error: "Internal Server Error" });
+      res.send({ message: "Internal Server Error" });
     }
   }
 );
