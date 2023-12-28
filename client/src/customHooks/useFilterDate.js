@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-
+import { formattedDate } from "../js/dates";
 const useFilterDate = (data, name) => {
-  let currentDate = new Date();
-  let formattedDate = currentDate.toISOString().split("T")[0];
   const [fromDate, setFromDate] = useState(formattedDate);
   const [toDate, setToDate] = useState(formattedDate);
 
