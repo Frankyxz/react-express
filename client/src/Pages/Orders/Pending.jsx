@@ -11,59 +11,30 @@ import axios from "axios";
 import { url } from "../../js/url";
 const Pending = () => {
   const pendingData = useData("pending-list");
-  const { orderDetails, showModal, handleSeeDetails, handleCloseModal } =
-    useSeeDetails("pending");
-  const { editItem, isEditModalOpen, openEditModal, closeEditModal } =
-    useEditModal();
+  const { orderDetails, showModal, handleSeeDetails, handleCloseModal } = useSeeDetails("pending");
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal } = useEditModal();
   const [isLoading, setIsLoading] = useState(false);
-  const { modeOfPayment, setModeOfPayment, paymentOptions } =
-    usePaymentLists(isEditModalOpen);
+  const { modeOfPayment, setModeOfPayment, paymentOptions } = usePaymentLists(isEditModalOpen);
 
   const handleConfirmPayment = async () => {
     setIsLoading(true);
     closeEditModal();
     try {
-      const res = await axios.put(
-        `${url}/orders/confirm-pending/${editItem.id}`,
-        { mop: modeOfPayment }
-      );
+      const res = await axios.put(`${url}/orders/confirm-pending/${editItem.id}`,
+        { mop: modeOfPayment } );
       pendingData.fetchData();
       setIsLoading(false);
     } catch (error) {
-      console.error("Error confirming payment: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "customerName",
-      headerName: "Customer Name",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "id", headerName: "ID", flex: 1, headerAlign: "center", align: "center" },
+    { field: "customerName", headerName: "Customer Name", flex: 1, headerAlign: "center", align: "center" },
 
-    {
-      field: "totalPrice",
-      headerName: "Total Payment",
-      headerAlign: "center",
-      flex: 1,
-      align: "center",
-    },
-    {
-      field: "date",
-      headerName: "Date Ordered",
-      headerAlign: "center",
-      flex: 1,
-      align: "center",
-    },
+    { field: "totalPrice", headerName: "Total Payment", headerAlign: "center", flex: 1, align: "center" },
+    { field: "date", headerName: "Date Ordered", headerAlign: "center", flex: 1, align: "center" },
     {
       field: "actions",
       headerName: "Action",
@@ -97,11 +68,7 @@ const Pending = () => {
         {isLoading ? <LoadingModal /> : null}
         <h2>Account Receivable</h2>
         <div className="table-container">
-          <Table
-            rows={pendingData.dataList}
-            columns={columns}
-            height={"500px"}
-          />
+          <Table rows={pendingData.dataList} columns={columns} height={"500px"} />
         </div>
       </div>
       <OrderDetailsModal

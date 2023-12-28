@@ -17,13 +17,7 @@ const Orders = () => {
   const { user } = useLogin();
   const orders = useData("orders");
   const totalPrice = useTotal(orders.dataList, "totalPrice");
-  const {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
-    setEditItem,
-  } = useEditModal();
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal, setEditItem } = useEditModal();
   const [processedTypeOptions, setProcessedTypeOptions] = useState([]);
   const [selectedProcessedMeat, setSelectedProcessedMeat] = useState(null);
   const [inputQuantity, setInputQuantity] = useState("");
@@ -31,10 +25,8 @@ const Orders = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [typePrice, setTypePrice] = useState("Select Price Type");
   const [detailsModal, setDetailsModal] = useState(false);
-  const { dispatchBy, setDispathBy, dispatcherOptions } =
-    useEmpDispatcher(detailsModal);
-  const { modeOfPayment, setModeOfPayment, paymentOptions } =
-    usePaymentLists(detailsModal);
+  const { dispatchBy, setDispathBy, dispatcherOptions } = useEmpDispatcher(detailsModal);
+  const { modeOfPayment, setModeOfPayment, paymentOptions } = usePaymentLists(detailsModal);
 
   useEffect(() => {
     const loadProcessedMeat = async () => {
@@ -69,15 +61,12 @@ const Orders = () => {
     }
 
     try {
-      const res = await axios.post(`${url}/orders/add`, {
-        typePrice,
-        inputQuantity,
-        selectedProcessedMeat,
-      });
+      const res = await axios.post(`${url}/orders/add`, 
+      { typePrice, inputQuantity, selectedProcessedMeat });
       orders.fetchData();
       setInputQuantity("");
     } catch (error) {
-      console.error("Error adding order: ", error);
+      console.error(error.message);
       alert(error.response.data.message);
     }
   };
@@ -87,7 +76,7 @@ const Orders = () => {
       const res = await axios.delete(`${url}/orders/delete/${id}`);
       orders.fetchData();
     } catch (error) {
-      console.error("Error deleting order: ", error);
+      console.error(error.message);
     }
   };
   const handleEditQuanti = async () => {
@@ -97,31 +86,24 @@ const Orders = () => {
     }
 
     try {
-      const res = await axios.put(`${url}/orders/edit`, {
-        editItem,
-      });
+      const res = await axios.put(`${url}/orders/edit`, 
+      { editItem });
       closeEditModal();
       orders.fetchData();
     } catch (error) {
-      console.error("Error updating order: ", error);
+      console.error(error.message);
     }
   };
   const handleConfirm = async () => {
     setDetailsModal(false);
     setIsLoading(true);
     try {
-      const res = await axios.post(`${url}/orders/confirm`, {
-        orders,
-        modeOfPayment,
-        totalPrice,
-        customerName,
-        dispatchBy,
-        user,
-      });
+      const res = await axios.post(`${url}/orders/confirm`, 
+      { orders, modeOfPayment, totalPrice, customerName, dispatchBy, user });
       orders.fetchData();
       setIsLoading(false);
     } catch (error) {
-      console.error("Error confirming order: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
@@ -132,33 +114,10 @@ const Orders = () => {
     setDispathBy("");
   };
   const columns = [
-    {
-      field: "brandName",
-      headerName: "Processed Meat",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "price",
-      headerName: "Price",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "kg",
-      headerName: "KG",
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "totalPrice",
-      headerName: "Total Price",
-      headerAlign: "center",
-      flex: 1,
-      align: "center",
-    },
+    { field: "brandName", headerName: "Processed Meat", flex: 1, headerAlign: "center", align: "center" },
+    { field: "price", headerName: "Price", flex: 1, headerAlign: "center", align: "center" },
+    { field: "kg", headerName: "KG", headerAlign: "center", align: "center" },
+    { field: "totalPrice", headerName: "Total Price", headerAlign: "center", flex: 1, align: "center" },
     {
       field: "actions",
       headerName: "Action",

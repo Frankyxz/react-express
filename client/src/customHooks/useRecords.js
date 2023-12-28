@@ -12,7 +12,7 @@ const useRecords = (type) => {
       const res = await axios.get(`${url}/history/${type}/${id}`);
       setRecords(res.data);
     } catch (error) {
-      console.error("Error fetching records: ", error);
+      console.error(error.message);
     }
   };
   const handleCloseRecord = () => {
@@ -20,12 +20,7 @@ const useRecords = (type) => {
     setRecords(null);
   };
 
-  return {
-    records,
-    recordModal,
-    handleCloseRecord,
-    handleRecords,
-  };
+  return { records, recordModal, handleCloseRecord, handleRecords };
 };
 
 export default useRecords;

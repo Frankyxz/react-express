@@ -9,13 +9,7 @@ import axios from "axios";
 const EmployeeDispatch = () => {
   const [dispatchName, setDispatchName] = useState("");
   const dispatchList = useData("dispatcher-list");
-  const {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
-    setEditItem,
-  } = useEditModal();
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal, setEditItem } = useEditModal();
 
   const handleAddDispatch = async () => {
     if (dispatchName.trim() === "") {
@@ -24,13 +18,12 @@ const EmployeeDispatch = () => {
     }
 
     try {
-      const res = await axios.post(`${url}/dispatcher/add`, {
-        name: dispatchName,
-      });
+      const res = await axios.post(`${url}/dispatcher/add`, 
+      { name: dispatchName });
       dispatchList.fetchData();
       setDispatchName("");
     } catch (error) {
-      console.error("Error adding data: ", error);
+      console.error(error.message);
     }
   };
 
@@ -39,18 +32,17 @@ const EmployeeDispatch = () => {
       const res = await axios.delete(`${url}/dispatcher/delete/${id}`);
       dispatchList.fetchData();
     } catch (error) {
-      console.error("Error deleting data: ", error);
+      console.error(error.message);
     }
   };
   const handleEdit = async () => {
     closeEditModal();
     try {
-      const res = await axios.put(`${url}/dispatcher/edit/${editItem.id}`, {
-        updateName: editItem.empName.trim().toUpperCase(),
-      });
+      const res = await axios.put(`${url}/dispatcher/edit/${editItem.id}`, 
+      { updateName: editItem.empName.trim().toUpperCase() });
       dispatchList.fetchData();
     } catch (error) {
-      console.error("Error updating Meat: ", error);
+      console.error(error.message);
     }
   };
   const columns = [

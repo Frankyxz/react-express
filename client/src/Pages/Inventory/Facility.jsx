@@ -13,27 +13,8 @@ import SearchBar from "../../Components/SearchBar";
 import QRCode from "react-qr-code";
 import { useReactToPrint } from "react-to-print";
 const Facility = () => {
-  const {
-    selectedMeatType,
-    setSelectedMeatType,
-    partsOptions,
-    selectedParts,
-    setSelectedParts,
-    meatBrandOptions,
-    meatData,
-    meatTypeOptions,
-    brandSelect,
-    setBrandSelect,
-    loadData,
-  } = useMeat();
-  const {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
-    setEditItem,
-  } = useEditModal();
-
+  const { selectedMeatType, setSelectedMeatType, partsOptions, selectedParts, setSelectedParts, meatBrandOptions, meatData, meatTypeOptions, brandSelect, setBrandSelect, loadData } = useMeat();
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal, setEditItem } = useEditModal();
   const [searchQuery, setSearchQuery] = useState("");
   const [meatKg, setMeatKg] = useState("");
   const meatTotal = useTotal(meatData, "kg");
@@ -62,16 +43,12 @@ const Facility = () => {
       return;
     }
     try {
-      const res = await axios.post(`${url}/facility/add-box/`, {
-        brandSelect,
-        meatKg,
-        selectedMeatType,
-        selectedParts,
-      });
+      const res = await axios.post(`${url}/facility/add-box/`, 
+      { brandSelect, meatKg, selectedMeatType, selectedParts });
       setMeatKg("");
       loadData();
     } catch (error) {
-      console.error("Error adding data: ", error);
+      console.error(error.message);
     }
   };
   //Delete a box in a specific meatType and meat Parts
@@ -80,7 +57,7 @@ const Facility = () => {
       const res = await axios.delete(`${url}/facility/delete-box/${id}`);
       loadData();
     } catch (error) {
-      console.error("Error deleting data: ", error);
+      console.error(error.message);
     }
   };
 
@@ -88,17 +65,15 @@ const Facility = () => {
   const handleEditKG = async () => {
     closeEditModal();
     try {
-      await axios.put(`${url}/facility/edit-box/${editItem.id}`, {
-        kg: editItem.kg,
-      });
+      await axios.put(`${url}/facility/edit-box/${editItem.id}`, 
+      { kg: editItem.kg });
       loadData();
     } catch (error) {
-      console.error("Error updating KG: ", error);
+      console.error(error.message);
     }
   };
 
   useEffect(() => {
-    // calculate total kg of each brands
     const calculateBrandTotalKgs = () => {
       const brandKgs = {};
 
@@ -109,7 +84,6 @@ const Facility = () => {
           brandKgs[item.brandName] += item.kg;
         }
       }
-
       setBrandTotalKgs(brandKgs);
     };
 
@@ -216,12 +190,7 @@ const Facility = () => {
           id="btn-meat"
           className="px-3 btn-primary btn"
           onClick={handleAddItem}
-          disabled={
-            selectedMeatType === "" ||
-            selectedParts == "" ||
-            meatKg == "" ||
-            brandSelect == ""
-          }
+          disabled={ selectedMeatType === "" || selectedParts == "" || meatKg == "" || brandSelect == ""}
         >
           Add
         </button>

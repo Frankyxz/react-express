@@ -12,10 +12,9 @@ const useEmpDispatcher = (ref) => {
         setDispatcherOptions(res.data.options);
         setDispathBy(res.data.options[0] || "");
       } catch (error) {
-        console.error("Error options: ", error);
+        console.error(error.message);
       }
     };
-
     loadDispatcherOptions();
   }, [ref]);
   return { dispatchBy, setDispathBy, dispatcherOptions };

@@ -12,13 +12,7 @@ const MeatParts = () => {
   const [meatPart, setMeatPart] = useState("");
   const { dataList, fetchData } = useData(`meatPart`);
   const { selectedMeatType, setSelectedMeatType, meatTypeOptions } = useMeat();
-  const {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
-    setEditItem,
-  } = useEditModal();
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal, setEditItem } = useEditModal();
 
   //Add
   const handleAddPart = async () => {
@@ -28,8 +22,7 @@ const MeatParts = () => {
     }
 
     //Find if there are the same meat part in the same meat type
-    const partsExist = dataList.some(
-      (item) =>
+    const partsExist = dataList.some((item) =>
         item.meatPart === meatPart.toUpperCase() &&
         item.meatType === selectedMeatType
     );
@@ -48,7 +41,7 @@ const MeatParts = () => {
       fetchData();
       setMeatPart("");
     } catch (error) {
-      console.error("Error adding data: ", error);
+      console.error(error.message);
     }
   };
 
@@ -57,9 +50,7 @@ const MeatParts = () => {
     try {
       const res = await axios.delete(
         `${url}/meatPart/delete-part/${value.id}`,
-        {
-          data: { meatType: value.meatType, meatPart: value.meatPart },
-        }
+        { data: { meatType: value.meatType, meatPart: value.meatPart }}
       );
       fetchData();
     } catch (error) {
@@ -79,7 +70,7 @@ const MeatParts = () => {
       }
       alert(res.data.message);
     } catch (error) {
-      console.error("Error deleting data: ", error);
+      console.error(error.message);
     }
   };
 
@@ -89,8 +80,7 @@ const MeatParts = () => {
       alert("Input a valid value");
       return;
     }
-    const partsExist = dataList.some(
-      (item) =>
+    const partsExist = dataList.some((item) =>
         item.meatPart === editItem.meatPart.toUpperCase().trim() &&
         item.meatType === editItem.meatType
     );
@@ -102,9 +92,7 @@ const MeatParts = () => {
 
     try {
       await axios.put(`${url}/meatPart/edit-part/${editItem.id}`, {
-        meatType: editItem.meatType,
-        meatPart: editItem.meatPart,
-      });
+        meatType: editItem.meatType, meatPart: editItem.meatPart });
       closeEditModal();
       fetchData();
     } catch (error) {

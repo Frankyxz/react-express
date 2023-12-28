@@ -11,11 +11,7 @@ const useConfirmModal = () => {
     setIsConfirmModalOpen(false);
   };
 
-  return {
-    isConfirmModalOpen,
-    openConfirmModal,
-    closeConfirmModal,
-  };
+  return { isConfirmModalOpen, openConfirmModal, closeConfirmModal };
 };
 
 export default useConfirmModal;

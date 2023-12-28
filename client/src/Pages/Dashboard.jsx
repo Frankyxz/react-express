@@ -25,12 +25,9 @@ const Dashboard = () => {
     const getLevels = async () => {
       try {
         const res = await axios.get(`${url}/dashboard/levels`);
-        setLevels({
-          raw: res.data.raw,
-          process: res.data.process,
-        });
+        setLevels({ raw: res.data.raw, process: res.data.process });
       } catch (error) {
-        console.error("Error  ", error);
+        console.error(error.message);
       }
     };
     const deliveredToday = async () => {
@@ -38,27 +35,15 @@ const Dashboard = () => {
         const res = await axios.get(`${url}/dashboard/delivered-today`);
         setKiloDelivered(res.data.kiloDelivered);
       } catch (error) {
-        console.error("Error  ", error);
+        console.error(error.message);
       }
     };
     deliveredToday();
     getLevels();
   }, []);
   const rawColumns = [
-    {
-      field: "meatType",
-      headerName: "Raw Meat",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "kg",
-      headerName: "Total (kg)",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "meatType", headerName: "Raw Meat", flex: 1, headerAlign: "center", align: "center" },
+    { field: "kg", headerName: "Total (kg)", flex: 1, headerAlign: "center", align: "center" },
     {
       field: "status",
       headerName: "Status",
@@ -93,19 +78,8 @@ const Dashboard = () => {
 
   const overAll = useTotal(rawRows, "kg");
   const processedColumns = [
-    {
-      field: "processedMeat",
-      headerName: "Processed Meat",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "quantity",
-      headerName: "Total (kg)",
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "processedMeat", headerName: "Processed Meat", flex: 1, headerAlign: "center", align: "center" },
+    { field: "quantity", headerName: "Total (kg)", headerAlign: "center", align: "center" },
     {
       field: "status",
       headerName: "Status",

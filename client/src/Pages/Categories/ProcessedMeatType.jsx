@@ -20,8 +20,6 @@ const ProcessedMeatType = () => {
   const [retailScrap, setRetailScrap] = useState("");
   const [wholeSaleScrap, setWholeSaleScrap] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-
-  const { meatPartTotals } = useFetchMeatPart();
   const { meatCollection } = useStockLevelStore();
 
   const handleCloseModalAdd = () => {
@@ -46,13 +44,7 @@ const ProcessedMeatType = () => {
 
   // Add
   const handleAddProcessedMeat = async () => {
-    if (
-      meatProcessedName === "" ||
-      retailScrap <= 0 ||
-      retailPrice <= 0 ||
-      wholeSalePrice <= 0 ||
-      wholeSaleScrap <= 0
-    ) {
+    if ( meatProcessedName === "" || retailScrap <= 0 || retailPrice <= 0 || wholeSalePrice <= 0 || wholeSaleScrap <= 0) {
       alert("Empty");
       return;
     }
@@ -74,28 +66,19 @@ const ProcessedMeatType = () => {
     setIsLoading(true);
     setModalAddPmeat(false);
     try {
-      const res = await axios.post(`${url}/processed/add-process`, {
-        meatProcessedName,
-        retailPrice,
-        wholeSalePrice,
-        selectedParts,
-        retailScrap,
-        wholeSaleScrap,
-      });
+      const res = await axios.post(`${url}/processed/add-process`, 
+      { meatProcessedName, retailPrice, wholeSalePrice, selectedParts, retailScrap, wholeSaleScrap });
       setIsLoading(false);
       processedMeatList.fetchData();
-      console.log("Add Process", res.data);
       setMeatProcessedName("");
     } catch (error) {
-      console.error("Error adding data: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
   //Delete
   const handleDeleteProcessed = async (id) => {
-    const itemToDelete = processedMeatList.dataList.find(
-      (item) => item.id === id
-    );
+    const itemToDelete = processedMeatList.dataList.find((item) => item.id === id);
 
     const scrapItem = processedMeatList.dataList.find(
       (item) => item.processedMeat === itemToDelete.processedMeat + "- (SCRAP)"
@@ -121,9 +104,8 @@ const ProcessedMeatType = () => {
       );
       setIsLoading(false);
       processedMeatList.fetchData();
-      console.log(res);
     } catch (error) {
-      console.error("Error deleting data: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
@@ -134,8 +116,7 @@ const ProcessedMeatType = () => {
     const duplicateProcessedMeat = processedMeatList.dataList.find(
       (item) =>
         item.id !== editItem.id &&
-        item.processedMeat.toUpperCase() === updatedProcessedMeatName
-    );
+        item.processedMeat.toUpperCase() === updatedProcessedMeatName);
 
     if (duplicateProcessedMeat) {
       alert("Name already exists");
@@ -146,41 +127,19 @@ const ProcessedMeatType = () => {
     setIsLoading(true);
     closeEditModal();
     try {
-      const response = await axios.put(
-        `${url}/processed/edit-process/${editItem.id}`,
-        editItem
-      );
+      const response = await axios.put( `${url}/processed/edit-process/${editItem.id}`, editItem );
       processedMeatList.fetchData();
       setIsLoading(false);
-      console.log(response);
     } catch (error) {
-      console.error("Error updating KG: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
   const columns = [
     { field: "processedMeat", headerName: "Processed Meat Type", flex: 1 },
-    {
-      field: "retail",
-      headerName: "Retail",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "wholeSale",
-      headerName: "Whole Sale",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "meatType",
-      headerName: "Meat Type",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "retail", headerName: "Retail", flex: 1, headerAlign: "center", align: "center" },
+    { field: "wholeSale", headerName: "Whole Sale", flex: 1, headerAlign: "center", align: "center" },
+    { field: "meatType", headerName: "Meat Type", flex: 1, headerAlign: "center", align: "center" },
     {
       field: "actions",
       headerName: "Action",

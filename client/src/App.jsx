@@ -44,23 +44,14 @@ const App = () => {
                 <Route path="meatType" element={<MeatType />} />
                 <Route path="meat-parts" element={<MeatParts />} />
                 <Route path="brands" element={<Brands />} />
-                <Route
-                  path="processed-meatType"
-                  element={<ProcessedMeatType />}
-                />
+                <Route path="processed-meatType" element={<ProcessedMeatType />} />
                 <Route path="facility" element={<Facility />} />
                 <Route path="comissary" element={<Comissary />} />
-                <Route
-                  path="delivery-facility"
-                  element={<DeliveryFacility />}
-                />
+                <Route path="delivery-facility" element={<DeliveryFacility />} />
                 <Route path="delivery-data" element={<DeliveryAdmin />} />
                 <Route path="calculate" element={<Calculate />} />
                 <Route path="delivery-history" element={<HistoryDelivery />} />
-                <Route
-                  path="percentage-history"
-                  element={<HistoryPercentage />}
-                />
+                <Route path="percentage-history" element={<HistoryPercentage />}/>
                 <Route path="order-history" element={<HistoryOrder />} />
                 <Route path="cancel-history" element={<HistoryCancel />} />
                 <Route path="umaintenace" element={<Accounts />} />
@@ -81,6 +72,13 @@ const App = () => {
                 <Route index element={<User />} />
                 <Route path="delivery" element={<EmpDeliverFacility />} />
                 <Route path="comissary" element={<Comissary />} />
+                <Route path="calculate" element={<Calculate />} />
+                <Route path="manage-orders" element={<ManageOrder />} />
+                <Route path="orders" element={<Orders />} />
+                <Route path="delivery-history" element={<HistoryDelivery />} />
+                <Route path="percentage-history" element={<HistoryPercentage />} />
+                <Route path="order-history" element={<HistoryOrder />} />
+                <Route path="cancel-history" element={<HistoryCancel />} />
               </Route>
             </Route>
           </Route>

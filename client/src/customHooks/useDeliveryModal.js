@@ -13,11 +13,7 @@ const useDeliveryModal = () => {
     await axios.post(`${url}/emp-facility/close-deliver`);
   };
 
-  return {
-    isDeliveryModalOpen,
-    openDeliveryModal,
-    closeDeliveryModal,
-  };
+  return { isDeliveryModalOpen, openDeliveryModal, closeDeliveryModal };
 };
 
 export default useDeliveryModal;

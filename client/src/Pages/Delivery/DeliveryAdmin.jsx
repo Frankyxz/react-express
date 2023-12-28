@@ -21,10 +21,7 @@ const DeliveryAdmin = () => {
   const receivedTotalKg = useTotal(receivedMeat.dataList, "totalKg");
   const [searchQuery, setSearchQuery] = useState("");
   const [remarks, setRemarks] = useState("");
-  const [deliveryInfo, setDeliveryInfo] = useState({
-    deliveryBy: "",
-    remarks: "",
-  });
+  const [deliveryInfo, setDeliveryInfo] = useState({ deliveryBy: "", remarks: "" });
   const handleCloseRemarkModal = () => {
     setRemarksModal(false);
     setRemarks("");
@@ -33,12 +30,9 @@ const DeliveryAdmin = () => {
     const fetchDeliveryInfo = async () => {
       try {
         const res = await axios.get(`${url}/admin-delivery/deliver-details`);
-        setDeliveryInfo({
-          deliveryBy: res.data.deliveryBy,
-          remarks: res.data.remarks,
-        });
+        setDeliveryInfo({ deliveryBy: res.data.deliveryBy, remarks: res.data.remarks });
       } catch (error) {
-        console.error("Error", error);
+        console.error(error.message);
       }
     };
     fetchDeliveryInfo();
@@ -52,26 +46,12 @@ const DeliveryAdmin = () => {
       }
       setIsLoading(true);
       setRemarksModal(false);
-      const res = await axios.post(`${url}/admin-delivery/process-delivery`, {
-        deliverTotalKg,
-        receivedTotalKg,
-        deliveryInfo,
-        remarks,
-        user,
-        expectedTotalData,
-        receivedMeat,
-      });
+      const res = await axios.post(`${url}/admin-delivery/process-delivery`, 
+      { deliverTotalKg, receivedTotalKg, deliveryInfo, remarks, user, expectedTotalData, receivedMeat });
       setIsLoading(false);
-      setDeliveryInfo({
-        deliveryBy: "",
-        remarks: "",
-      });
-      //   deliverData.fetchData();
-      //   boxesReceived.fetchData();
-      //   receivedMeat.fetchData();
-      //   expectedTotalData.fetchData();
+      setDeliveryInfo({ deliveryBy: "", remarks: "" });
     } catch (error) {
-      console.error("Error: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
@@ -92,55 +72,16 @@ const DeliveryAdmin = () => {
   });
 
   const combinedColumns = [
-    {
-      field: "meatType",
-      headerName: "Meat Type",
-      flex: 1,
-    },
-    {
-      field: "brandName",
-      headerName: "Brand Name",
-      flex: 1,
-    },
-    {
-      field: "receivedMeat",
-      headerName: "Received Meat",
-      flex: 1,
-    },
-    {
-      field: "expectedTotal",
-      headerName: "Expected Total",
-      flex: 1,
-    },
+    { field: "meatType", headerName: "Meat Type", flex: 1 },
+    { field: "brandName", headerName: "Brand Name", flex: 1 },
+    { field: "receivedMeat", headerName: "Received Meat", flex: 1 },
+    { field: "expectedTotal", headerName: "Expected Total", flex: 1 },
   ];
   const boxesColumns = [
-    {
-      field: "brandId",
-      headerName: "ID",
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "brandName",
-      headerName: "Brand Name",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "kg",
-      headerName: "KG",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "combined",
-      headerName: "Meat Type",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "brandId", headerName: "ID", headerAlign: "center", align: "center" },
+    { field: "brandName", headerName: "Brand Name", flex: 1, headerAlign: "center", align: "center" },
+    { field: "kg", headerName: "KG", flex: 1, headerAlign: "center", align: "center" },
+    { field: "combined", headerName: "Meat Type", flex: 1, headerAlign: "center", align: "center" },
   ];
   //Responsible for changing the color if the same meatType is not matched the kg
   const isMismatched = (meatType, brandName) => {
@@ -154,14 +95,12 @@ const DeliveryAdmin = () => {
     if (receivedMeatItem && expectedTotalItem) {
       return receivedMeatItem.totalKg !== expectedTotalItem.totalKg;
     }
-
     return true;
   };
   const isDelivered = (id) => {
     const receivedMeatItem = boxesReceived.dataList.find(
       (item) => item.brandId == id
     );
-
     return receivedMeatItem;
   };
 

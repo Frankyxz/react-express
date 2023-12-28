@@ -9,13 +9,7 @@ import { url } from "../../js/url";
 const Payments = () => {
   const [paymentName, setPaymentName] = useState("");
   const paymentList = useData("payment-list");
-  const {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
-    setEditItem,
-  } = useEditModal();
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal, setEditItem } = useEditModal();
   const handleAddPayment = async () => {
     if (paymentName.trim() === "") {
       alert("Input a value");
@@ -23,25 +17,23 @@ const Payments = () => {
     }
 
     try {
-      const res = await axios.post(`${url}/payment/add`, {
-        name: paymentName,
-      });
+      const res = await axios.post(`${url}/payment/add`, 
+      { name: paymentName });
       paymentList.fetchData();
       setPaymentName("");
     } catch (error) {
-      console.error("Error adding data: ", error);
+      console.error(error.message);
     }
   };
 
   const handleEdit = async () => {
     closeEditModal();
     try {
-      const res = await axios.put(`${url}/payment/edit/${editItem.id}`, {
-        updateName: editItem.paymentName.trim().toUpperCase(),
-      });
+      const res = await axios.put(`${url}/payment/edit/${editItem.id}`, 
+      { updateName: editItem.paymentName.trim().toUpperCase() });
       paymentList.fetchData();
     } catch (error) {
-      console.error("Error updating Meat: ", error);
+      console.error(error.message);
     }
   };
   const handleDelete = async (id) => {
@@ -49,7 +41,7 @@ const Payments = () => {
       const res = await axios.delete(`${url}/payment/delete/${id}`);
       paymentList.fetchData();
     } catch (error) {
-      console.error("Error deleting data: ", error);
+      console.error(error.message);
     }
   };
   const columns = [

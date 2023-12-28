@@ -6,40 +6,14 @@ import useFilterDate from "../../customHooks/useFilterDate";
 import useRecords from "../../customHooks/useRecords";
 const HistoryDelivery = () => {
   const historyDelivery = useData("history-delivery");
-  const { handleFromDate, handleToDate, filteredData, fromDate, toDate } =
-    useFilterDate(historyDelivery, "dateConfirm");
-  const { records, recordModal, handleRecords, handleCloseRecord } =
-    useRecords("delivery");
+  const { handleFromDate, handleToDate, filteredData, fromDate, toDate } = useFilterDate(historyDelivery, "dateConfirm");
+  const { records, recordModal, handleRecords, handleCloseRecord } = useRecords("delivery");
 
   const columns = [
-    {
-      field: "totalKiloDelivered",
-      headerName: "Total Kilo Delivered",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "totalKiloReceived",
-      headerName: "Total Kilo Received",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "dateConfirm",
-      headerName: "Date",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "remarks",
-      headerName: "Remarks",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "totalKiloDelivered", headerName: "Total Kilo Delivered", flex: 1, headerAlign: "center", align: "center" },
+    { field: "totalKiloReceived", headerName: "Total Kilo Received", flex: 1, headerAlign: "center", align: "center" },
+    { field: "dateConfirm", headerName: "Date", flex: 1, headerAlign: "center", align: "center" },
+    { field: "remarks", headerName: "Remarks", flex: 1, headerAlign: "center", align: "center" },
     {
       field: "actions",
       headerName: "Details",

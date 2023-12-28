@@ -15,21 +15,12 @@ import useGroupMeat from "../../customHooks/useGroupMeat";
 import axios from "axios";
 const EmpDeliverFacility = () => {
   const { user } = useLogIn();
-  const { isDeliveryModalOpen, openDeliveryModal, closeDeliveryModal } =
-    useDeliveryModal();
+  const { isDeliveryModalOpen, openDeliveryModal, closeDeliveryModal } = useDeliveryModal();
   const deliveryQueueData = useData(`deliveryQueue`);
   const empDeliverList = useData(`emp-deliver-list`);
   const totalMeatKg = useTotal(empDeliverList.dataList, "totalKg");
-  const queueGroupMeat = useGroupMeat(
-    deliveryQueueData.dataList,
-    "kg",
-    "combined"
-  );
-  const empGroupMeat = useGroupMeat(
-    empDeliverList.dataList,
-    "totalKg",
-    "meatType"
-  );
+  const queueGroupMeat = useGroupMeat( deliveryQueueData.dataList, "kg", "combined" );
+  const empGroupMeat = useGroupMeat( empDeliverList.dataList, "totalKg", "meatType" );
   const [isLoading, setIsLoading] = useState(false);
   const [remarksModal, setRemarksModal] = useState(false);
   const [deliveryRemarks, setDeliveryRemarks] = useState("");
@@ -43,15 +34,10 @@ const EmpDeliverFacility = () => {
 
   useEffect(() => {
     if (videoRef.current) {
-      const scanner = new QrScanner(
-        videoRef.current,
-        (result) => {
+      const scanner = new QrScanner( videoRef.current, (result) => {
           setScanResult(result);
         },
-        {
-          highlightCodeOutline: true,
-          highlightScanRegion: true,
-        }
+        { highlightCodeOutline: true, highlightScanRegion: true, }
       );
 
       scanner.start();
@@ -100,14 +86,13 @@ const EmpDeliverFacility = () => {
     }
 
     try {
-      const res = await axios.post(`${url}/emp-facility/scan-box`, {
-        id: entryIdString,
-      });
+      const res = await axios.post(`${url}/emp-facility/scan-box`, 
+      { id: entryIdString });
       empDeliverList.fetchData();
       setIsLoading(false);
       setScanResult(null);
     } catch (error) {
-      console.error("Error adding data: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
@@ -116,7 +101,7 @@ const EmpDeliverFacility = () => {
       const res = await axios.delete(`${url}/emp-facility/delete-box/${id}`);
       empDeliverList.fetchData();
     } catch (error) {
-      console.error("Error deleting data: ", error);
+      console.error(error.message);
     }
   };
   const handleSubmit = async () => {
@@ -131,15 +116,12 @@ const EmpDeliverFacility = () => {
     setRemarksModal(false);
     setIsLoading(true);
     try {
-      const res = await axios.post(`${url}/emp-facility/count-data`, {
-        user,
-        deliveryRemarks,
-      });
+      const res = await axios.post(`${url}/emp-facility/count-data`, 
+      { user, deliveryRemarks });
       empDeliverList.fetchData();
       setIsLoading(false);
-      console.log(res);
     } catch (error) {
-      console.error("Error:", error);
+      console.error(error.message);
     }
   };
   useEffect(() => {
@@ -161,35 +143,10 @@ const EmpDeliverFacility = () => {
   }, []);
 
   const columns = [
-    {
-      field: "brandId",
-      headerName: "ID",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "meatType",
-      headerName: "Meat Type",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "brandName",
-      headerName: "Brand Name",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-
-    {
-      field: "totalKg",
-      headerName: "Total Kg",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "brandId", headerName: "ID", flex: 1, headerAlign: "center", align: "center" },
+    { field: "meatType", headerName: "Meat Type", flex: 1, headerAlign: "center", align: "center" },
+    { field: "brandName", headerName: "Brand Name", flex: 1, headerAlign: "center", align: "center" },
+    { field: "totalKg", headerName: "Total Kg", flex: 1, headerAlign: "center", align: "center" },
     {
       field: "actions",
       headerName: "Action",

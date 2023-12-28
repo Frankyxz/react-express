@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { url } from "../../js/url";
 import Table from "../../Components/Table";
@@ -13,11 +13,7 @@ const Accounts = () => {
   const [editOldPass, setEditOldPass] = useState("");
   const [editNewPass, setEditNewPass] = useState("");
   const [editConfirmPass, setEditConfirmPass] = useState("");
-  const [formData, setFormData] = useState({
-    employeeType: "Admin",
-    username: "",
-    password: "",
-  });
+  const [formData, setFormData] = useState({ employeeType: "Admin", username: "", password: "" });
   const [isLoading, setIsLoading] = useState(false);
 
   const openModal = () => {
@@ -26,11 +22,7 @@ const Accounts = () => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setFormData({
-      employeeType: "Admin",
-      username: "",
-      password: "",
-    });
+    setFormData({ employeeType: "Admin", username: "", password: "" });
     setEditOldPass("");
     setEditNewPass("");
     setEditConfirmPass("");
@@ -67,7 +59,7 @@ const Accounts = () => {
       users.fetchData();
       setIsLoading(false);
     } catch (error) {
-      console.error("Error adding data: ", error);
+      console.error(error.message);
     }
   };
   const handleDeleteUser = async (id) => {
@@ -75,7 +67,7 @@ const Accounts = () => {
       const res = await axios.delete(`${url}/auth/delete-user/${id}`);
       users.fetchData();
     } catch (error) {
-      console.error("Error deleting user:", error.message);
+      console.error(error.message);
     }
   };
   const columns = [
@@ -119,12 +111,7 @@ const Accounts = () => {
   ];
 
   const handleEditUser = async () => {
-    // Perform validation checks
-    if (
-      editOldPass.trim() === "" ||
-      editNewPass.trim() === "" ||
-      editConfirmPass.trim() === ""
-    ) {
+    if ( editOldPass.trim() === "" || editNewPass.trim() === "" || editConfirmPass.trim() === "") {
       alert("Please fill in all password fields.");
       return;
     }
@@ -134,13 +121,11 @@ const Accounts = () => {
     }
 
     try {
-      const res = await axios.put(`${url}/auth/edit-user/${editUser.id}`, {
-        editOldPass,
-        editNewPass,
-      });
+      const res = await axios.put(`${url}/auth/edit-user/${editUser.id}`, 
+      { editOldPass, editNewPass });
       closeEditModal();
     } catch (error) {
-      console.error("Error updating password in Firestore:", error);
+      console.error(error.message);
       alert(error.response.data.message);
     }
   };

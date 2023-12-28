@@ -11,7 +11,7 @@ const usePaymentLists = (ref) => {
         const res = await axios.get(`${url}/order-options/payments`);
         setPaymentOptions(res.data.options);
       } catch (error) {
-        console.error("Error options: ", error);
+        console.error(error.message);
       }
     };
 

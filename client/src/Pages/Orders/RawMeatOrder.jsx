@@ -22,12 +22,9 @@ const RawMeatOrder = () => {
   const [itemPrice, setItemPrice] = useState("");
   const overAllTotal = useTotal(rawQueueData.dataList, "kg");
   const [detailsModal, setDetailsModal] = useState(false);
-  const { isConfirmModalOpen, openConfirmModal, closeConfirmModal } =
-    useConfirmModal();
-  const { dispatchBy, setDispathBy, dispatcherOptions } =
-    useEmpDispatcher(detailsModal);
-  const { modeOfPayment, setModeOfPayment, paymentOptions } =
-    usePaymentLists(detailsModal);
+  const { isConfirmModalOpen, openConfirmModal, closeConfirmModal } = useConfirmModal();
+  const { dispatchBy, setDispathBy, dispatcherOptions } = useEmpDispatcher(detailsModal);
+  const { modeOfPayment, setModeOfPayment, paymentOptions } = usePaymentLists(detailsModal);
   const groupMeat = useGroupMeat(rawQueueData.dataList, "kg", "combined");
   //Scanner
   const [scanResult, setScanResult] = useState(null);
@@ -36,15 +33,10 @@ const RawMeatOrder = () => {
 
   useEffect(() => {
     if (videoRef.current) {
-      const scanner = new QrScanner(
-        videoRef.current,
-        (result) => {
+      const scanner = new QrScanner( videoRef.current, (result) => {
           setScanResult(result);
         },
-        {
-          highlightCodeOutline: true,
-          highlightScanRegion: true,
-        }
+        { highlightCodeOutline: true, highlightScanRegion: true }
       );
 
       scanner.start();
@@ -83,14 +75,13 @@ const RawMeatOrder = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(`${url}/raw/scan-box`, {
-        id: id,
-      });
+      const res = await axios.post(`${url}/raw/scan-box`, 
+      { id: id });
       rawQueueData.fetchData();
       setIsLoading(false);
       setScanResult(null);
     } catch (error) {
-      console.error("Error : ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
@@ -134,19 +125,12 @@ const RawMeatOrder = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(`${url}/raw/confirm`, {
-        modeOfPayment,
-        customerName,
-        itemPrice,
-        overAllTotal,
-        user,
-        dispatchBy,
-        rawQueueData,
-      });
+      const res = await axios.post(`${url}/raw/confirm`, 
+      { modeOfPayment, customerName, itemPrice, overAllTotal, user, dispatchBy, rawQueueData });
       rawQueueData.fetchData();
       setIsLoading(false);
     } catch (error) {
-      console.error("Error deleting: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };

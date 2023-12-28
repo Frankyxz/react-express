@@ -6,38 +6,13 @@ import useSeeDetails from "../../customHooks/useSeeDetails";
 import OrderDetailsModal from "../../Components/OrderDetailsModal";
 const HistoryCancel = () => {
   const cancelHistoryData = useData("history-cancel");
-  const { handleFromDate, handleToDate, filteredData, fromDate, toDate } =
-    useFilterDate(cancelHistoryData, "date");
-  const { orderDetails, showModal, handleSeeDetails, handleCloseModal } =
-    useSeeDetails("cancel");
+  const { handleFromDate, handleToDate, filteredData, fromDate, toDate } = useFilterDate(cancelHistoryData, "date");
+  const { orderDetails, showModal, handleSeeDetails, handleCloseModal } = useSeeDetails("cancel");
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "customerName",
-      headerName: "Customer Name",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "remarks",
-      headerName: "Remarks",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "id", headerName: "ID", headerAlign: "center", align: "center" },
+    { field: "customerName", headerName: "Customer Name", flex: 1, headerAlign: "center", align: "center" },
+    { field: "date", headerName: "Date", flex: 1, headerAlign: "center", align: "center" },
+    { field: "remarks", headerName: "Remarks", flex: 1, headerAlign: "center", align: "center" },
     {
       field: "actions",
       headerName: "Canceled Order",
@@ -89,11 +64,7 @@ const HistoryCancel = () => {
         </div>
       </div>
 
-      <OrderDetailsModal
-        show={showModal}
-        onHide={handleCloseModal}
-        data={orderDetails}
-      />
+      <OrderDetailsModal show={showModal} onHide={handleCloseModal} data={orderDetails} />
     </>
   );
 };

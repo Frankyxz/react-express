@@ -14,13 +14,7 @@ const useEditModal = () => {
     setEditItem(null);
   };
 
-  return {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    setEditItem,
-    closeEditModal,
-  };
+  return { editItem, isEditModalOpen, openEditModal, setEditItem, closeEditModal };
 };
 
 export default useEditModal;

@@ -9,13 +9,7 @@ import useLogIn from "../../stores/useLogin";
 import Table from "../../Components/Table";
 
 const Comissary = () => {
-  const {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
-    setEditItem,
-  } = useEditModal();
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal, setEditItem } = useEditModal();
   const processedMeatList = useData(`processed-meat`);
   const [searchQuery, setSearchQuery] = useState("");
   const { isAdmin } = useLogIn();
@@ -30,23 +24,16 @@ const Comissary = () => {
       closeEditModal();
       const response = await axios.put(
         `${url}/processed/edit-process-quantity/${editItem.id}`,
-        { quantity: editItem.quantity }
-      );
+        { quantity: editItem.quantity });
       processedMeatList.fetchData();
     } catch (error) {
-      console.error("Error updating: ", error);
+      console.error(error.message);
     }
   };
 
   const columns = [
     { field: "processedMeat", headerName: "Processed Meat Name", flex: 1 },
-    {
-      field: "quantity",
-      headerName: "KG",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "quantity", headerName: "KG", flex: 1, headerAlign: "center", align: "center" },
   ];
   if (isAdmin) {
     columns.push({

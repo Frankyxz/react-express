@@ -12,41 +12,11 @@ const HistoryPercentage = () => {
     useRecords("percentages");
 
   const columns = [
-    {
-      field: "totalKGReceived",
-      headerName: "Total Kilo Received",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "totalKgProcessed",
-      headerName: "Total Processed Meat",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "totalScrap",
-      headerName: "Total Scrap Meat",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "missing",
-      headerName: "Waste",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "totalKGReceived", headerName: "Total Kilo Received", flex: 1, headerAlign: "center", align: "center" },
+    { field: "totalKgProcessed", headerName: "Total Processed Meat", flex: 1, headerAlign: "center", align: "center" },
+    { field: "totalScrap", headerName: "Total Scrap Meat", flex: 1, headerAlign: "center", align: "center" },
+    { field: "date", headerName: "Date", flex: 1, headerAlign: "center", align: "center" },
+    { field: "missing", headerName: "Waste", flex: 1, headerAlign: "center", align: "center" },
     {
       field: "actions",
       headerName: "Details",

@@ -12,8 +12,7 @@ import { url } from "../../js/url";
 const ManageOrder = () => {
   const orders = useData("orders-list");
   const { user, isAdmin } = useLogin();
-  const { orderDetails, showModal, handleSeeDetails, handleCloseModal } =
-    useSeeDetails("order-list");
+  const { orderDetails, showModal, handleSeeDetails, handleCloseModal } = useSeeDetails("order-list");
   const [isLoading, setIsLoading] = useState(false);
   const [cancelModal, setCancelModal] = useState(false);
   const [cancelOrder, setCancelOrder] = useState(null);
@@ -37,7 +36,7 @@ const ManageOrder = () => {
       orders.fetchData();
       setIsLoading(false);
     } catch (error) {
-      console.error("Error confirming order : ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
@@ -45,16 +44,13 @@ const ManageOrder = () => {
     setIsLoading(true);
     setCancelModal(false);
     try {
-      const res = await axios.post(`${url}/orders/cancel-order`, {
-        cancelOrder,
-        cancelRemarks,
-        user,
-      });
+      const res = await axios.post(`${url}/orders/cancel-order`, 
+      { cancelOrder, cancelRemarks, user });
       orders.fetchData();
       setIsLoading(false);
       setCancelRemarks("");
     } catch (error) {
-      console.error("Error deleting order", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
@@ -69,59 +65,16 @@ const ManageOrder = () => {
     dispatcher: order.dispatcher,
   }));
 
-  const filteredRowOrder = isAdmin
-    ? rowOrder
-    : rowOrder.filter((order) => order.type !== "Raw");
+  const filteredRowOrder = isAdmin ? rowOrder : rowOrder.filter((order) => order.type !== "Raw");
+
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "customerName",
-      headerName: "Customer Name",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "modeOfPayment",
-      headerName: "MOP",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-
-    {
-      field: "totalPrice",
-      headerName: "Total Price",
-      headerAlign: "center",
-      flex: 1,
-      align: "center",
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "processedBy",
-      headerName: "Process By",
-      headerAlign: "center",
-      flex: 1,
-      align: "center",
-    },
-    {
-      field: "dispatcher",
-      headerName: "Dispatcher",
-      headerAlign: "center",
-      flex: 1,
-      align: "center",
-    },
-
+    {field: "id",headerName: "ID",headerAlign: "center",align: "center"},
+    {field: "customerName",headerName: "Customer Name",flex: 1,headerAlign: "center",align: "center"},
+    {field: "modeOfPayment",headerName: "MOP",flex: 1,headerAlign: "center",align: "center"},
+    {field: "totalPrice",headerName: "Total Price",headerAlign: "center",flex: 1,align: "center"},
+    {field: "date",headerName: "Date",headerAlign: "center",align: "center"},
+    {field: "processedBy",headerName: "Process By",headerAlign: "center",flex: 1,align: "center"},
+    { field: "dispatcher", headerName: "Dispatcher", headerAlign: "center", flex: 1, align: "center" },
     {
       field: "actions",
       headerName: "Action",
@@ -204,11 +157,7 @@ const ManageOrder = () => {
         </Box>
       </div>
 
-      <OrderDetailsModal
-        show={showModal}
-        onHide={handleCloseModal}
-        data={orderDetails}
-      />
+      <OrderDetailsModal show={showModal} onHide={handleCloseModal} data={orderDetails} />
 
       <Modal show={cancelModal} onHide={handleCloseCancelModal}>
         <Modal.Header closeButton>

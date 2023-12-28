@@ -12,8 +12,7 @@ import ConfirmModal from "../../Components/ConfirmModal";
 import useConfirmModal from "../../customHooks/useConfirmModal";
 import useGroupMeat from "../../customHooks/useGroupMeat";
 const DeliveryFacility = () => {
-  const { isConfirmModalOpen, openConfirmModal, closeConfirmModal } =
-    useConfirmModal();
+  const { isConfirmModalOpen, openConfirmModal, closeConfirmModal } = useConfirmModal();
   const deliveryQueueData = useData(`deliveryQueue`);
   const deliverTotalKg = useTotal(deliveryQueueData.dataList, "kg");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,15 +26,10 @@ const DeliveryFacility = () => {
 
   useEffect(() => {
     if (videoRef.current) {
-      const scanner = new QrScanner(
-        videoRef.current,
-        (result) => {
+      const scanner = new QrScanner( videoRef.current, (result) => {
           setScanResult(result);
         },
-        {
-          highlightCodeOutline: true,
-          highlightScanRegion: true,
-        }
+        { highlightCodeOutline: true, highlightScanRegion: true, }
       );
 
       scanner.start();
@@ -63,15 +57,13 @@ const DeliveryFacility = () => {
     setIsLoading(true);
 
     try {
-      const res = await axios.post(`${url}/delivery-facility/scan-box`, {
-        id: entryIdString,
-      });
-
+      const res = await axios.post(`${url}/delivery-facility/scan-box`, 
+      { id: entryIdString });
       deliveryQueueData.fetchData();
       setIsLoading(false);
       setScanResult(null);
     } catch (error) {
-      console.error("Error adding to Delivery Queue: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
@@ -84,14 +76,13 @@ const DeliveryFacility = () => {
   const handleRemoveDelivery = async () => {
     setIsLoading(true);
     try {
-      const res = await axios.delete(`${url}/delivery-facility/remove-box`, {
-        data: returnRows,
-      });
+      const res = await axios.delete(`${url}/delivery-facility/remove-box`, 
+      { data: returnRows });
       setIsLoading(false);
       deliveryQueueData.fetchData();
       setReturnRows([]);
     } catch (error) {
-      console.error("Error removing from Delivery Queue: ", error);
+      console.error(error.message);
       setIsLoading(false);
     }
   };
@@ -108,7 +99,7 @@ const DeliveryFacility = () => {
       const res = await axios.get(`${url}/delivery-facility/set-kg`);
       setKgNum(res.data.kg);
     } catch (error) {
-      console.error("Error", error);
+      console.error(error.message);
     }
   };
   useEffect(() => {
@@ -120,12 +111,11 @@ const DeliveryFacility = () => {
       return;
     }
     try {
-      const res = await axios.post(`${url}/delivery-facility/set-delivery`, {
-        data: deliverTotalKg,
-      });
+      const res = await axios.post(`${url}/delivery-facility/set-delivery`, 
+      { data: deliverTotalKg });
       handleChangeButton();
     } catch (error) {
-      console.error("Error", error);
+      console.error(error.message);
     }
   };
 
@@ -135,7 +125,7 @@ const DeliveryFacility = () => {
       const res = await axios.post(`${url}/delivery-facility/cancel-delivery`);
       handleChangeButton();
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   };
 
@@ -147,40 +137,11 @@ const DeliveryFacility = () => {
   };
 
   const columns = [
-    {
-      field: "brandId",
-      headerName: "ID",
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "combined",
-      headerName: "Meat",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "brandName",
-      headerName: "Brand Name",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "kg",
-      headerName: "KG",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "dateAdded",
-      headerName: "Date Added",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "brandId", headerName: "ID", headerAlign: "center", align: "center" },
+    { field: "combined", headerName: "Meat", flex: 1, headerAlign: "center", align: "center" },
+    { field: "brandName", headerName: "Brand Name", flex: 1, headerAlign: "center", align: "center" },
+    { field: "kg", headerName: "KG", flex: 1, headerAlign: "center", align: "center" },
+    { field: "dateAdded", headerName: "Date Added", flex: 1, headerAlign: "center", align: "center" },
   ];
 
   return (

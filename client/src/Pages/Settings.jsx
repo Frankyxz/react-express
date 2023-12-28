@@ -8,11 +8,7 @@ import axios from "axios";
 const Settings = () => {
   const { levels } = useStockLevelStore();
   const [editModal, setEditModal] = useState(false);
-  const [editedValues, setEditedValues] = useState({
-    critical: 0,
-    reorder: 0,
-    average: 0,
-  });
+  const [editedValues, setEditedValues] = useState({ critical: 0, reorder: 0, average: 0});
   const handleEditProcess = async (process) => {
     setEditedValues({
       name: "process",
@@ -52,12 +48,10 @@ const Settings = () => {
       return;
     }
     try {
-      const res = await axios.put(`${url}/settings/set-level`, {
-        data: editedValues,
-      });
-      console.log(res.data);
+      const res = await axios.put(`${url}/settings/set-level`, 
+      { data: editedValues });
     } catch (error) {
-      console.error("Error updating data: ", error);
+      console.error(error.message);
     }
   };
   const rows = levels.raw.map((raw, index) => {

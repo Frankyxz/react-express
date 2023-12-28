@@ -10,7 +10,7 @@ const useData = (endPoint) => {
       const res = await axios.get(`${url}/fetchData/${endPoint}`);
       setDataList(res.data);
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   };
   useEffect(() => {

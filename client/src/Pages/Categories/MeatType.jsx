@@ -8,20 +8,13 @@ import useEditModal from "../../customHooks/useEditModal";
 import { url } from "../../js/url";
 const MeatType = () => {
   const [meatName, setMeatName] = useState("");
-  const { dataList, fetchData } = useData(`meatType`);
-  const {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
-    setEditItem,
-  } = useEditModal();
+  const meatType = useData(`meatType`);
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal, setEditItem } = useEditModal();
   const handleAddMeat = async () => {
     try {
-      const response = await axios.post(`${url}/meatType/add-meat`, {
-        meatName: meatName.trim().toUpperCase(),
-      });
-      fetchData();
+      const res = await axios.post(`${url}/meatType/add-meat`, 
+      { meatName: meatName.trim().toUpperCase() });
+      meatType.fetchData();
       setMeatName("");
     } catch (error) {
       console.error(error.message);
@@ -32,12 +25,8 @@ const MeatType = () => {
     try {
       const res = await axios.delete(
         `${url}/meatType/delete-meat/${value.id}`,
-        {
-          data: { Meat: value.Meat },
-        }
-      );
-      fetchData();
-      console.log(res.status);
+        { data: { Meat: value.Meat } });
+      meatType.fetchData();
     } catch (error) {
       console.error(error.message);
     }
@@ -45,13 +34,12 @@ const MeatType = () => {
 
   const handleEditMeat = async () => {
     try {
-      await axios.put(`${url}/meatType/edit-meat/${editItem.id}`, {
-        Meat: editItem.Meat,
-      });
+      await axios.put(`${url}/meatType/edit-meat/${editItem.id}`,
+       { Meat: editItem.Meat, });
       closeEditModal();
-      fetchData();
+      meatType.fetchData();
     } catch (error) {
-      console.error(error);
+      console.error(error.message);
     }
   };
 
@@ -60,14 +48,13 @@ const MeatType = () => {
       const res = await axios.get(
         `${url}/meatType/validate-edit/${value.Meat}`
       );
-      console.log(res.data);
       if (res.data.canEdit) {
         openEditModal(value);
       } else {
         alert("Cannot Edit.");
       }
     } catch (error) {
-      console.error("Error validating edit: ", error);
+      console.error(error.message);
     }
   };
 
@@ -122,7 +109,7 @@ const MeatType = () => {
         </button>
 
         <div className="table-container">
-          <Table rows={dataList} columns={columns} height={"400px"} />
+          <Table rows={meatType.dataList} columns={columns} height={"400px"} />
         </div>
       </div>
 

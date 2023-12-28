@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Button, Modal, Form } from "react-bootstrap";
-import { DataGrid } from "@mui/x-data-grid";
 import TextField from "@mui/material/TextField";
 import LoadingModal from "../../Components/LoadingModal";
 import useData from "../../customHooks/useData";
@@ -12,17 +11,9 @@ import useConfirmModal from "../../customHooks/useConfirmModal";
 import ConfirmModal from "../../Components/ConfirmModal";
 import { url } from "../../js/url";
 import axios from "axios";
-import useFetchMeatPart from "../../customHooks/useFetchMeatParts";
 const Calculate = () => {
-  const {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
-    setEditItem,
-  } = useEditModal();
-  const { isConfirmModalOpen, openConfirmModal, closeConfirmModal } =
-    useConfirmModal();
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal, setEditItem } = useEditModal();
+  const { isConfirmModalOpen, openConfirmModal, closeConfirmModal } = useConfirmModal();
   const [isLoading, setIsLoading] = useState(false);
   const receivedTotalData = useData(`received-total`);
   const totalData = useData(`total-data`);
@@ -42,10 +33,9 @@ const Calculate = () => {
         setMeatTypeOptions(res.data);
         setSelectedMeatType(res.data[0] || "");
       } catch (error) {
-        console.error("Error loading meat options: ", error);
+        console.error(error.message);
       }
     };
-
     loadMeatOptions();
   }, []);
   useEffect(() => {
@@ -66,7 +56,7 @@ const Calculate = () => {
       (value) => value.meatType === selectedMeatType.toUpperCase()
     );
 
-    const selectedMeatTotalKg = receivedTotalData.dataList.find(
+    const selectedMeatTotalKg = receivedTotalData.dataList.some(
       (value) => value.meatType === selectedMeatType.toUpperCase()
     )?.totalKg;
     const meatTypeExistsInTotal = totalData.dataList.some(
@@ -83,25 +73,19 @@ const Calculate = () => {
       alert(`Invalid input`);
       return;
     }
-    if (
-      selectedMeatTotalKg &&
-      parseFloat(totalProcessed) > selectedMeatTotalKg
-    ) {
+    if (selectedMeatTotalKg && parseFloat(totalProcessed) > selectedMeatTotalKg) {
       alert("Total processed should not exceed the received totalKg.");
       return;
     }
 
     if (meatTypeExists) {
       try {
-        const res = await axios.post(`${url}/calculate/add-processed-total`, {
-          partnerMeatType,
-          selectedMeatType,
-          totalProcessed,
-        });
+        const res = await axios.post(`${url}/calculate/add-processed-total`, 
+        { partnerMeatType, selectedMeatType, totalProcessed });
         setTotalProcessed("");
         totalData.fetchData();
       } catch (error) {
-        console.error("Error adding data: ", error);
+        console.error(error.message);
       }
     } else {
       alert("There are no meatType in the received");
@@ -133,25 +117,21 @@ const Calculate = () => {
     try {
       const res = await axios.put(
         `${url}/calculate/edit-processed-total/${editItem.id}`,
-        {
-          totalKg: editItem.totalKg,
-        }
+        { totalKg: editItem.totalKg }
       );
       closeEditModal();
       totalData.fetchData();
     } catch (error) {
-      console.error("Error updating KG: ", error);
+      console.error(error.message);
     }
   };
   const handlevalidate = async () => {
     try {
-      const res = await axios.post(`${url}/calculate/validate`, {
-        receivedTotalData,
-        totalData,
-      });
+      const res = await axios.post(`${url}/calculate/validate`, 
+      { receivedTotalData, totalData });
       openConfirmModal();
     } catch (error) {
-      console.error("Error", error);
+      console.error(error.message);
       alert(error.response.data.message);
     }
   };
@@ -161,13 +141,8 @@ const Calculate = () => {
     try {
       setIsLoading(true);
       closeConfirmModal();
-      const res = await axios.post(`${url}/calculate/submit-processed`, {
-        receivedTotalData,
-        totalData,
-        totalKGReceived,
-        totalKgProcessed,
-        totalScrap,
-      });
+      const res = await axios.post(`${url}/calculate/submit-processed`, 
+      { receivedTotalData, totalData, totalKGReceived, totalKgProcessed, totalScrap });
       receivedTotalData.fetchData();
       totalData.fetchData();
       setIsLoading(false);
@@ -178,58 +153,25 @@ const Calculate = () => {
   };
   //Count the total scrap and non scrap in the table
   useEffect(() => {
-    const meatData = totalData.dataList.filter(
-      (value) => !value.processedMeat.includes("- (SCRAP)")
-    );
+    const meatData = totalData.dataList.filter((value) => !value.processedMeat.includes("- (SCRAP)"));
 
-    const totalProcessedKg = meatData.reduce(
-      (total, value) => total + value.totalKg,
-      0
-    );
-    const scrapData = totalData.dataList.filter((value) =>
-      value.processedMeat.includes("- (SCRAP)")
-    );
+    const totalProcessedKg = meatData.reduce((total, value) => total + value.totalKg, 0 );
 
-    const totalScrapKg = scrapData.reduce(
-      (total, value) => total + value.totalKg,
-      0
-    );
+    const scrapData = totalData.dataList.filter((value) => value.processedMeat.includes("- (SCRAP)"));
+
+    const totalScrapKg = scrapData.reduce((total, value) => total + value.totalKg, 0 );
 
     setTotalKgProcessed(totalProcessedKg);
     setTotalScrap(totalScrapKg);
   }, [totalData.dataList]);
   const receivedColumns = [
-    {
-      field: "meatType",
-      headerName: "Meat Type",
-      flex: 1,
-    },
-    {
-      field: "totalKg",
-      headerName: "Total Kg",
-      flex: 1,
-      headerAlign: "left",
-      align: "left",
-    },
+    { field: "meatType", headerName: "Meat Type", flex: 1 },
+    { field: "totalKg", headerName: "Total Kg", flex: 1, headerAlign: "left", align: "left"},
   ];
   const totalDataColumns = [
-    {
-      field: "processedMeat",
-      headerName: "Processed Meat",
-      flex: 1,
-    },
-    {
-      field: "meatType",
-      headerName: "Meat Type",
-      flex: 1,
-    },
-    {
-      field: "totalKg",
-      headerName: "Total Kg",
-      flex: 1,
-      headerAlign: "left",
-      align: "left",
-    },
+    { field: "processedMeat", headerName: "Processed Meat", flex: 1 },
+    { field: "meatType", headerName: "Meat Type", flex: 1 },
+    { field: "totalKg", headerName: "Total Kg", flex: 1, headerAlign: "left", align: "left" },
     {
       field: "actions",
       headerName: "Action",

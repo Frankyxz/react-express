@@ -5,20 +5,7 @@ import { url } from "../js/url";
 const useMeat = () => {
   const [brandSelect, setBrandSelect] = useState("");
 
-  const {
-    selectedMeatType,
-    setMeatTypeOptions,
-    setSelectedMeatType,
-    partsOptions,
-    setPartsOptions,
-    selectedParts,
-    setSelectedParts,
-    meatBrandOptions,
-    meatData,
-    setMeatData,
-    meatTypeOptions,
-    setMeatBrandOptions,
-  } = useMeatStore();
+  const { selectedMeatType, setMeatTypeOptions, setSelectedMeatType, partsOptions, setPartsOptions, selectedParts, setSelectedParts, meatBrandOptions, meatData, setMeatData, meatTypeOptions, setMeatBrandOptions } = useMeatStore();
 
   useEffect(() => {
     const loadMeatOptions = async () => {
@@ -29,7 +16,7 @@ const useMeat = () => {
           selectedMeatType != "" ? selectedMeatType : res.data[0] || ""
         );
       } catch (error) {
-        console.error("Error loading meat options: ", error);
+        console.error(error.message);
       }
     };
 
@@ -57,7 +44,7 @@ const useMeat = () => {
       );
       setMeatData(res.data);
     } catch (error) {
-      console.error("Error loading meat options: ", error);
+      console.error(error.message);
     }
   };
   useEffect(() => {
@@ -76,26 +63,14 @@ const useMeat = () => {
           setBrandSelect(res.data[0] || "");
         }
       } catch (error) {
-        console.error("Error loading meat options: ", error);
+        console.error(error.message);
       }
     };
 
     loadMeatBrandOptions();
   }, [selectedParts, selectedMeatType]);
 
-  return {
-    selectedMeatType,
-    setSelectedMeatType,
-    partsOptions,
-    selectedParts,
-    setSelectedParts,
-    meatBrandOptions,
-    meatData,
-    meatTypeOptions,
-    brandSelect,
-    setBrandSelect,
-    loadData,
-  };
+  return { selectedMeatType, setSelectedMeatType, partsOptions, selectedParts, setSelectedParts, meatBrandOptions, meatData, meatTypeOptions, brandSelect, setBrandSelect, loadData };
 };
 
 export default useMeat;

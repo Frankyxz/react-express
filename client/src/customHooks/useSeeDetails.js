@@ -12,7 +12,7 @@ const useSeeDetails = (dataRef) => {
       const res = await axios.get(`${url}/orders/${dataRef}/${id}`);
       setOrderDetails(res.data.orderData);
     } catch (error) {
-      console.error("Error fetching orders: ", error);
+      console.error(error.message);
     }
   };
   //Reset the see details when close
@@ -20,12 +20,7 @@ const useSeeDetails = (dataRef) => {
     setShowModal(false);
     setOrderDetails(null);
   };
-  return {
-    orderDetails,
-    showModal,
-    handleSeeDetails,
-    handleCloseModal,
-  };
+  return { orderDetails, showModal, handleSeeDetails, handleCloseModal };
 };
 
 export default useSeeDetails;

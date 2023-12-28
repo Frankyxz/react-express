@@ -11,10 +11,8 @@ const Login = () => {
   const navigate = useNavigate();
   const handleLogin = async () => {
     try {
-      const response = await axios.post(`${url}/auth/login`, {
-        userName,
-        password,
-      });
+      const response = await axios.post(`${url}/auth/login`,
+       { userName, password });
 
       const { success, user } = response.data;
 
@@ -22,14 +20,12 @@ const Login = () => {
         setUser(user.userName.split("@")[0]);
         setIsAdmin(user.type === "Admin");
         setLoggedIn(true);
-        navigate(
-          user.type === "Admin" ? "/admin/umaintenace" : "/user/comissary"
-        );
+        navigate(user.type === "Admin" ? "/admin/dashboard" : "/user/comissary");
       } else {
         alert("Invalid credentials");
       }
     } catch (error) {
-      console.log("Error signing in:", error.message);
+      console.log(error.message);
       alert("An error occurred while signing in");
     }
   };

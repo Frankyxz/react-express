@@ -10,49 +10,16 @@ import useSeeDetails from "../../customHooks/useSeeDetails";
 const HistoryOrder = () => {
   const { isAdmin } = useLogin();
   const orderHistory = useData("history-order");
-  const { handleFromDate, handleToDate, filteredData, fromDate, toDate } =
-    useFilterDate(orderHistory, "date");
-  const { orderDetails, showModal, handleSeeDetails, handleCloseModal } =
-    useSeeDetails("orderHistory");
+  const { handleFromDate, handleToDate, filteredData, fromDate, toDate } = useFilterDate(orderHistory, "date");
+  const { orderDetails, showModal, handleSeeDetails, handleCloseModal } = useSeeDetails("orderHistory");
 
-  const filteredRowOrder = isAdmin
-    ? filteredData
-    : filteredData.filter((order) => order.type !== "Raw");
+  const filteredRowOrder = isAdmin ? filteredData : filteredData.filter((order) => order.type !== "Raw");
   const columns = [
-    {
-      field: "id",
-      headerName: "ID",
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "customerName",
-      headerName: "Customer Name",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "date",
-      headerName: "Date",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "modeOfPayment",
-      headerName: "Mode of Payment",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
-    {
-      field: "totalPrice",
-      headerName: "Grand Total",
-      flex: 1,
-      headerAlign: "center",
-      align: "center",
-    },
+    { field: "id", headerName: "ID", headerAlign: "center", align: "center" },
+    { field: "customerName", headerName: "Customer Name", flex: 1, headerAlign: "center", align: "center" },
+    { field: "date", headerName: "Date", flex: 1, headerAlign: "center", align: "center" },
+    { field: "modeOfPayment", headerName: "Mode of Payment", flex: 1, headerAlign: "center", align: "center" },
+    { field: "totalPrice", headerName: "Grand Total", flex: 1, headerAlign: "center", align: "center" },
     {
       field: "actions",
       headerName: "Details",
@@ -134,11 +101,7 @@ const HistoryOrder = () => {
         </div>
       </div>
 
-      <OrderDetailsModal
-        show={showModal}
-        onHide={handleCloseModal}
-        data={orderDetails}
-      />
+      <OrderDetailsModal show={showModal} onHide={handleCloseModal} data={orderDetails} />
     </>
   );
 };

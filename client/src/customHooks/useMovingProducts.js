@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {
-  formattedDate,
-  formattedStartWeek,
-  formattedEndWeek,
-  formattedStartMonth,
-  formattedEndMonth,
-} from "../js/dates";
+import { formattedDate, formattedStartWeek, formattedEndWeek, formattedStartMonth, formattedEndMonth } from "../js/dates";
 import axios from "axios";
 import { url } from "../js/url";
 const useMovingProducts = (type, sortBy) => {

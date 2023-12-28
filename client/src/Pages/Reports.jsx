@@ -25,25 +25,12 @@ const Reports = () => {
         );
         setYearChart(res.data.sales);
       } catch (error) {
-        console.error("Error fetching data: ", error);
+        console.error(error.message);
       }
     };
     fetchForChart();
   }, []);
-  const months = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
+  const months = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
   return (
     <>
       <div className="content-container">

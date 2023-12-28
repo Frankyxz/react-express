@@ -10,22 +10,9 @@ import useEditModal from "../../customHooks/useEditModal";
 import { Button, Modal, Form } from "react-bootstrap";
 
 const Brands = () => {
-  const { dataList, fetchData } = useData(`brands`);
-  const {
-    selectedMeatType,
-    setSelectedMeatType,
-    partsOptions,
-    selectedParts,
-    setSelectedParts,
-    meatTypeOptions,
-  } = useMeat();
-  const {
-    editItem,
-    isEditModalOpen,
-    openEditModal,
-    closeEditModal,
-    setEditItem,
-  } = useEditModal();
+  const brandLists = useData(`brands`);
+  const { selectedMeatType, setSelectedMeatType, partsOptions, selectedParts, setSelectedParts, meatTypeOptions } = useMeat();
+  const { editItem, isEditModalOpen, openEditModal, closeEditModal, setEditItem } = useEditModal();
   const [brandName, setBrandName] = useState("");
   const [editMeatType, setEditMeatType] = useState("");
   const [editMeatPart, setEditMeatPart] = useState("");
@@ -49,30 +36,22 @@ const Brands = () => {
   useEffect(() => {
     const fetchMeatPart = async () => {
       if (editMeatType !== "") {
-        const res = await axios.get(
-          `${url}/useMeat/fetch-part/${editMeatType}`
-        );
+        const res = await axios.get(`${url}/useMeat/fetch-part/${editMeatType}`);
         setEditPartOptions(res.data);
         setEditMeatPart(editItem ? editItem.meatPart : "");
       }
     };
-
     fetchMeatPart();
   }, [editMeatType]);
   // Add
   const handleAddBrand = async () => {
-    if (
-      brandName.trim() == "" ||
-      selectedMeatType.trim() == "" ||
-      selectedParts.trim() == ""
-    ) {
+    if ( brandName.trim() == "" || selectedMeatType.trim() == "" || selectedParts.trim() == "") {
       alert("Input a value");
       return;
     }
 
     // Find if there are the same brandName in the same meat type and meat part
-    const brandExists = dataList.some(
-      (item) =>
+    const brandExists = dataList.some((item) =>
         item.brandName === brandName &&
         item.meatType === selectedMeatType &&
         item.meatPart === selectedParts
@@ -89,26 +68,25 @@ const Brands = () => {
         meatType: selectedMeatType,
         meatPart: selectedParts,
       });
-      fetchData();
+      brandLists.fetchData();
       setBrandName("");
     } catch (error) {
-      console.error("Error adding data: ", error);
+      console.error(error.message);
     }
   };
   //Delete
   const handleDeleteBrand = async (id) => {
     try {
       const res = await axios.delete(`${url}/brands/delete-brand/${id}`);
-      fetchData();
+      brandLists.fetchData();
     } catch (error) {
-      console.error("Error deleting data: ", error);
+      console.error(error.message);
     }
   };
   //Edit
   const handleEditBrand = async () => {
     try {
-      const brandExists = dataList.some(
-        (item) =>
+      const brandExists = dataList.some((item) =>
           item.brandName.trim() === editItem.brandName.toUpperCase().trim() &&
           item.meatType === editMeatType &&
           item.meatPart === editPartRef.current.value
@@ -124,9 +102,9 @@ const Brands = () => {
         meatPart: editPartRef.current.value,
       });
       closeEditModal();
-      fetchData();
+      brandLists.fetchData();
     } catch (error) {
-      console.error("Error updating Meat: ", error);
+      console.error(error.message);
     }
   };
 
@@ -198,7 +176,7 @@ const Brands = () => {
           Add
         </button>
         <div className="table-container">
-          <Table rows={dataList} columns={columns} height={"400px"} />
+          <Table rows={brandLists.dataList} columns={columns} height={"400px"} />
         </div>
       </div>
 
