@@ -1,20 +1,6 @@
 const express = require("express");
-const {
-  collection,
-  query,
-  where,
-  getDoc,
-  getDocs,
-} = require("firebase/firestore");
-const {
-  db,
-  deliveryHistory,
-  orderListRef,
-  pendingTableRef,
-  partRef,
-  comissaryRef,
-  levelStock,
-} = require("../config/firebase");
+const { query, where, getDoc, getDocs } = require("firebase/firestore");
+const { deliveryHistory, levelStock } = require("../config/firebase");
 const { formattedDate } = require("../dates");
 const dashboardRoutes = express.Router();
 
@@ -39,6 +25,8 @@ dashboardRoutes.get("/delivered-today", async (req, res) => {
       const doc = querySnapshot.docs[0];
       const kilo = doc.data().totalKiloDelivered;
       res.send({ kiloDelivered: kilo });
+    } else {
+      res.send({ kiloDelivered: 0 });
     }
   } catch (error) {
     res.send(error);

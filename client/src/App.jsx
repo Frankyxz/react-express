@@ -28,6 +28,7 @@ import ManageOrder from "./Pages/Orders/ManageOrder";
 import Pending from "./Pages/Orders/Pending";
 import RawMeatOrder from "./Pages/Orders/RawMeatOrder";
 import Dashboard from "./Pages/Dashboard";
+import Settings from "./Pages/Settings";
 const App = () => {
   return (
     <>
@@ -69,6 +70,7 @@ const App = () => {
                 <Route path="acc-receivable" element={<Pending />} />
                 <Route path="raw-order" element={<RawMeatOrder />} />
                 <Route path="dashboard" element={<Dashboard />} />
+                <Route path="settings" element={<Settings />} />
               </Route>
 
               {/*Users*/}
