@@ -51,7 +51,7 @@ const Brands = () => {
     }
 
     // Find if there are the same brandName in the same meat type and meat part
-    const brandExists = dataList.some((item) =>
+    const brandExists = brandLists.dataList.some((item) =>
         item.brandName === brandName &&
         item.meatType === selectedMeatType &&
         item.meatPart === selectedParts
