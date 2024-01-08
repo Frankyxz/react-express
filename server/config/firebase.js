@@ -3,14 +3,12 @@ const { getFirestore, collection, doc } = require("firebase/firestore");
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBy6eo9bh9AnaRwkzncwG7AjKnwYIQC1f4",
-  authDomain: "capstonedb-a41d0.firebaseapp.com",
-  databaseURL: "https://capstonedb-a41d0-default-rtdb.firebaseio.com",
-  projectId: "capstonedb-a41d0",
-  storageBucket: "capstonedb-a41d0.appspot.com",
-  messagingSenderId: "233163892330",
-  appId: "1:233163892330:web:e5426c9b46e17c835e0c13",
-  measurementId: "G-991B9JW8KV",
+  apiKey: "AIzaSyCcBrJJYalvY9O6R8K84oqKlroxXA7e6-Q",
+  authDomain: "capstone-project-ebf0c.firebaseapp.com",
+  projectId: "capstone-project-ebf0c",
+  storageBucket: "capstone-project-ebf0c.appspot.com",
+  messagingSenderId: "421273579728",
+  appId: "1:421273579728:web:f10d0c671c0cc8c881aed5"
 };
 
 // Initialize Firebase
