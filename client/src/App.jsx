@@ -54,7 +54,7 @@ const App = () => {
                 <Route path="percentage-history" element={<HistoryPercentage />}/>
                 <Route path="order-history" element={<HistoryOrder />} />
                 <Route path="cancel-history" element={<HistoryCancel />} />
-                <Route path="umaintenace" element={<Accounts />} />
+                <Route path="umaintenance" element={<Accounts />} />
                 <Route path="dmaintenance" element={<EmployeeDispatch />} />
                 <Route path="pmaintenance" element={<Payments />} />
                 <Route path="orders" element={<Orders />} />
